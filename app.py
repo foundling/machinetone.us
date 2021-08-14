@@ -11,7 +11,7 @@ import pyqrcode
 from io import BytesIO
 
 
-from flask import Flask, flash, get_flashed_messages, render_template, redirect, request, url_for
+from flask import Flask, flash, get_flashed_messages, render_template, redirect, request, session, url_for
 from flask_bcrypt import Bcrypt
 from flask_mde import Mde, MdeField
 from flask_wtf import FlaskForm
@@ -117,6 +117,7 @@ select
     join author on post.author_id = author.author_id
     LEFT join post_tag on post.id = post_tag.post_id
     LEFT join tag on post_tag.tag_id = tag.id
+    where author.author_id = ?
     group by post.id;
 '''
 POST_WITH_TAGS_BY_POST_ID = '''
@@ -137,7 +138,7 @@ def get_posts_with_tags():
     with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
         con.row_factory = sqlite3.Row
         cur = con.cursor()
-        cur.execute(ALL_POSTS_WITH_TAGS)
+        cur.execute(ALL_POSTS_WITH_TAGS, [current_user.get_id()])
         posts = [ dict(row) for row in cur.fetchall() ]
 
         for post in posts:
@@ -175,6 +176,7 @@ def news():
 @app.route('/admin/dashboard')
 @login_required
 def dashboard():
+    print(current_user.get_id())
     posts_for_logged_in_author = [
         post for post
         in get_posts_with_tags()
@@ -223,8 +225,21 @@ def qrcode():
     #TODO: restore security checks of username against session
     # e.g., https://github.com/miguelgrinberg/two-factor-auth-flask/blob/master/app.py#L128
 
+    result = None
+    with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
+
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        cur.execute('select * from user where username = ?', [session['username']])
+        result = cur.fetchone()
+
+    del session['username']
+    username = result['username']
+    otp_secret = result['otp_secret']
+    totp_uri = 'otpauth://totp/MachineTone-2FA:{0}?secret={1}&issuer=2FA-Demo'.format(username, otp_secret)
+
     # render qrcode for FreeTOTP
-    url = pyqrcode.create(current_user.get_totp_uri())
+    url = pyqrcode.create(totp_uri)
     stream = BytesIO()
     url.svg(stream, scale=3)
     return stream.getvalue(), 200, {
@@ -259,9 +274,9 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
 
                 login_user(user, remember=form.remember.data)
-                user.otp_secret = base64.b32encode(os.urandom(10)).decode('utf-8')
+                print(user.__dict__)
 
-                if user.otp_secret and user.active:
+                if user.otp_secret and user.is_active:
                     # user has enabled two factor auth, and needs to enter code
                     return redirect(url_for('two_factor_auth'))
                 else:
@@ -310,15 +325,18 @@ def register():
                 flash('Username is taken')
                 return render_template('admin/register.html', form=form)
 
+            otp_secret = base64.b32encode(os.urandom(10)).decode('utf-8')
             # create user and author records for new user
             hashed_password = bcrypt.generate_password_hash(form.password.data)
-            cur.execute('insert into user username = ?, password = ?', [form.username.data, hashed_password])
+            cur.execute('insert into user (username, password, otp_secret) values (?,?,?)', [form.username.data, hashed_password, otp_secret])
             new_user_id = cur.lastrowid
-            cur.execute('insert into author author_id = ?, first_name = ?, last_name = ?', [new_user_id, form.first_name.data, form.last_name.data])
+            cur.execute('insert into author (author_id, first_name, last_name) values (?,?,?)', [new_user_id, form.first_name.data, form.last_name.data])
 
             con.commit()
 
-        return redirect(url_for('login'))
+            session['username'] = form.username.data
+
+        return redirect(url_for('two_factor_setup'))
 
     return render_template('admin/register.html', form=form)
 
