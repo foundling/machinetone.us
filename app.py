@@ -1,27 +1,28 @@
-import datetime
-import sqlite3
 import base64
-import os
-from urllib.parse import urlparse, urljoin
-from operator import itemgetter
-import onetimepass
-import re
-
-import pyqrcode
+import datetime
 from io import BytesIO
+from operator import itemgetter
+import os
+import re
+import sqlite3
+from urllib.parse import urlparse, urljoin
 
+import onetimepass
+import pyqrcode
 
 from flask import Flask, flash, get_flashed_messages, render_template, redirect, request, session, url_for
 from flask_bcrypt import Bcrypt
 from flask_mde import Mde, MdeField
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length, EqualTo
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 def is_safe_url(target):
+
     ref_url = urlparse(request.host_url)
     test_url = urlparse(urljoin(request.host_url, target))
+
     return test_url.scheme in ('http', 'https') and \
            ref_url.netloc == test_url.netloc
 
@@ -44,10 +45,10 @@ mde = Mde(app)
 
 class User(UserMixin):
 
-    def __init__(self, id, username, password, first_name, last_name, otp_secret):
+    def __init__(self, user_id, username, password, first_name, last_name, otp_secret):
 
         self.otp_secret = otp_secret # gets set when user initiates this flow
-        self.id = id
+        self.id = user_id
         self.username = username
         self.password = password
         self.first_name = first_name
@@ -75,12 +76,14 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
+
     with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
+
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         cur.execute('select * from user join author on user.id = author.author_id where author_id = ?', [user_id])
-
         user = cur.fetchone()
+
         if user is None:
             return None
 
@@ -99,7 +102,12 @@ class AuthForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired(),Length(min=4, max=15)])
-    password = PasswordField('Password', validators=[InputRequired(),Length(min=8), EqualTo('confirm_password', message='passwords must match') ])
+    password = PasswordField('Password', validators=[
+        InputRequired(),
+        Length(min=8),
+        EqualTo('confirm_password',
+        message='passwords must match')
+    ])
     confirm_password = PasswordField('Confirm Password', validators = [InputRequired(), Length(min=8)])
     first_name = StringField('First Name', validators=[InputRequired(),Length(min=1, max=100)])
     last_name = StringField('Last Name', validators=[InputRequired(),Length(min=1, max=100)])
@@ -136,6 +144,7 @@ select
 def get_posts_with_tags():
 
     with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
+
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         cur.execute(ALL_POSTS_WITH_TAGS, [current_user.get_id()])
@@ -152,6 +161,7 @@ def get_posts_with_tags():
 def get_post_with_tags(post_id): 
 
     with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
+        
         con.row_factory = sqlite3.Row
         cur = con.cursor()
         cur.execute(POST_WITH_TAGS_BY_POST_ID, [post_id])
@@ -176,13 +186,7 @@ def news():
 @app.route('/admin/dashboard')
 @login_required
 def dashboard():
-    print(current_user.get_id())
-    posts_for_logged_in_author = [
-        post for post
-        in get_posts_with_tags()
-        if post['author_id'] == current_user.get_id()
-    ]
-    return render_template('admin/dashboard.html', posts=posts_for_logged_in_author)
+    return render_template('admin/dashboard.html', posts=get_posts_with_tags)
 
 @app.route('/admin')
 def admin():
@@ -222,9 +226,6 @@ def two_factor_auth():
 @app.route('/admin/qrcode')
 def qrcode():
 
-    #TODO: restore security checks of username against session
-    # e.g., https://github.com/miguelgrinberg/two-factor-auth-flask/blob/master/app.py#L128
-
     result = None
     with sqlite3.connect('db/mt.db', detect_types=sqlite3.PARSE_DECLTYPES) as con:
 
@@ -234,11 +235,11 @@ def qrcode():
         result = cur.fetchone()
 
     del session['username']
+
     username = result['username']
     otp_secret = result['otp_secret']
     totp_uri = 'otpauth://totp/MachineTone-2FA:{0}?secret={1}&issuer=2FA-Demo'.format(username, otp_secret)
 
-    # render qrcode for FreeTOTP
     url = pyqrcode.create(totp_uri)
     stream = BytesIO()
     url.svg(stream, scale=3)
@@ -274,7 +275,6 @@ def login():
             if bcrypt.check_password_hash(user.password, form.password.data):
 
                 login_user(user, remember=form.remember.data)
-                print(user.__dict__)
 
                 if user.otp_secret and user.is_active:
                     # user has enabled two factor auth, and needs to enter code
@@ -283,13 +283,10 @@ def login():
                     # user hasn't enabled two factor auth
                     return redirect(url_for('two_factor_setup')) 
 
-
             else:
                 flash('Invalid user/password combination', 'error')
                 return render_template('admin/login.html', form=form)
 
-            # is_safe_url should check if the url is safe for redirects.
-            # See http://flask.pocoo.org/snippets/62/ for an example.
             next = request.args.get('next')
             if not is_safe_url(next):
                 return flask.abort(400)
@@ -326,11 +323,20 @@ def register():
                 return render_template('admin/register.html', form=form)
 
             otp_secret = base64.b32encode(os.urandom(10)).decode('utf-8')
-            # create user and author records for new user
             hashed_password = bcrypt.generate_password_hash(form.password.data)
-            cur.execute('insert into user (username, password, otp_secret) values (?,?,?)', [form.username.data, hashed_password, otp_secret])
+
+            cur.execute('insert into user (username, password, otp_secret) values (?,?,?)', [
+                form.username.data,
+                hashed_password,
+                otp_secret
+            ])
             new_user_id = cur.lastrowid
-            cur.execute('insert into author (author_id, first_name, last_name) values (?,?,?)', [new_user_id, form.first_name.data, form.last_name.data])
+
+            cur.execute('insert into author (author_id, first_name, last_name) values (?,?,?)', [
+                new_user_id,
+                form.first_name.data,
+                form.last_name.data
+            ])
 
             con.commit()
 
@@ -343,7 +349,6 @@ def register():
 @app.route('/admin/post/new', methods=['GET','POST'])
 @login_required
 def new_post():
-
 
     if request.method == 'GET':
 
@@ -454,6 +459,8 @@ def publish_post(post_id):
         cur = con.cursor()
         cur.execute('update post set published = 1 where id = ?', [post_id])
         con.commit()
+
+    # social hooks go here
 
     return redirect(url_for('admin'))
 

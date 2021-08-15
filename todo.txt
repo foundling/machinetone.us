@@ -1,3 +1,0 @@
-add author table
-implement publish/unpublish logic
-pull in scss
