@@ -231,7 +231,7 @@ def qrcode():
 
         con.row_factory = sqlite3.Row
         cur = con.cursor()
-        cur.execute('select * from user where username = ?', [session['username']])
+        cur.execute('select * from user where username = ?', [session.get('username')])
         result = cur.fetchone()
 
     del session['username']
