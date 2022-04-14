@@ -1,8 +1,0 @@
-{% extends "admin/layout.html" %}
-
-{% block content %}
-    <h1>Two Factor Authentication Setup</h1>
-    <p>Open FreeOTP on your phone and scan the following QR Code with it:</p>
-    <p><img id="qrcode" src="{{ url_for('qrcode') }}"></p>
-    <p>I'm done! Let me put a code in and log in! <a href="{{ url_for('login') }}">Login</a> page!</p>
-{% endblock %}
