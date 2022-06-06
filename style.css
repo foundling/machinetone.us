@@ -1,0 +1,77 @@
+body {
+    background: black;
+    color: white;
+    font-family: sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+.page {
+    height: 100%;
+    width: 100%;
+}
+
+nav {
+    width: 100%;
+}
+
+nav {
+    align-items: baseline;
+}
+
+
+nav, nav .nav-items {
+    display: inline-flex;
+}
+
+nav .nav-items > .nav-item {
+    list-style-type: none;
+    margin: 20px;
+}
+
+
+.latest {
+    background: url('floodreed-chakrat-ep.png'); 
+    background-size: cover;
+    height: 400px;
+    width: 400px;
+
+}
+
+.title, .category {
+    background: rgb(255 90 90 / 20%);
+}
+
+.title {
+    padding-left: 20px;
+    width: 100%;
+    display: inline-flex;
+    align-items: baseline;
+    font-weight: lighter;
+}
+.title > .artist-name {
+    padding-right: 10px;
+}
+
+.artist-name {
+    font-weight: 200;
+}
+.release-title {
+    font-style: italic;
+    font-weight: lighter;
+}
+
+.release-title > .art {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.category {
+    display: inline-block;
+    padding: 20px;
+    font-weight: 200;
+}
