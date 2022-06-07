@@ -5,27 +5,56 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
+        <!-- Catalog Page -->
         <main class="page">
+
             <section>
                 <nav>
-                    <h1>[ mt ]</h1>
+                    <h1>[ machine tone ]</h1>
                     <ul class="nav-items">
-                       <li class="nav-item">catalog</li>
+                       <li class="nav-item current-page">catalog</li>
                        <li class="nav-item">artists</li>
+                       <li class="nav-item">about us</li>
                        <li class="nav-item">media</li>
                        <li class="nav-item">blog</li>
-                       <li class="nav-item">info</li>
                        <li class="nav-item">cart</li>
                     </ul>
                 </nav>
             </section>
-            <section class="latest">
+
+            <section>
                 <div class="title">
-                    <h2 class="artist-name">Floodreed</h2><h2 class="release-title">Chakrat EP</h2>
+                    <h2 class="artist-name">floodreed</h2><h2 class="release-title">Chakrat EP</h2>
                 </div>
-                <p class="category">EP</p>
+                <img class="selected-image"></img>
             </section>
+
             <section class="feed"></section>
+                <ul class="feed">
+                    <table>
+                        <tr class="feed-item">
+                            <td class="date">10.22</td> <!-- release.date -->
+                            <td class="artist">Peter Norman</td> <!-- artist.name -->
+                            <td class="release">1234</td> <!-- release.title -->
+                        </tr>
+                        <tr class="feed-item ">
+                            <td class="date">7.22</td>
+                            <td class="artist">Alex Ramsdell</td>
+                            <td class="release">Some Dubs</td>
+                        </tr>
+                        <tr class="feed-item selected">
+                            <td class="date">4.22</td>
+                            <td class="artist">floodreed</td>
+                            <td class="release">Chakrat EP</td>
+                        </tr>
+                        <tr class="feed-item">
+                            <td class="date">6.21</td>
+                            <td class="artist">Al's Magic</td>
+                            <td class="release">Cosmic Takes</td>
+                        </tr>
+                    </table>
+                </ul>
+
         </main> 
     </body>
 </html>
