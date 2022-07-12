@@ -140,12 +140,98 @@ INSERT INTO release (artist_id, title, release_date, description, release_type, 
     1
 );
 
+-- associate tracks with releases
+-- Floodreed - Chakrat EP
+INSERT INTO track (artist_id, title) VALUES (
+   1,
+   'Chakrat in C (first encounter)'
+);
+INSERT INTO track (artist_id, title) VALUES (
+   1,
+   'Chakrat in C (second exposure)'
+);
+INSERT INTO track (artist_id, title) VALUES (
+   1,
+   'Chakrat in C (final visit)'
+);
+INSERT INTO track (artist_id, title) VALUES (
+   1,
+   'Presettled Routine'
+);
+INSERT INTO track (artist_id, title) VALUES (
+   1,
+   'Illbient Excursion'
+);
+
+INSERT INTO track_release(track_id, release_id) VALUES (
+    1,
+    1
+);
+
+INSERT INTO track_release(track_id, release_id) VALUES (
+    2,
+    1
+);
+
+INSERT INTO track_release(track_id, release_id) VALUES (
+    3,
+    1
+);
+INSERT INTO track_release(track_id, release_id) VALUES (
+    4,
+    1
+);
+INSERT INTO track_release(track_id, release_id) VALUES (
+    5,
+    1
+);
+
+-- Al's Magic - Cosmic Takes
+INSERT INTO track (artist_id, title) VALUES (
+   2,
+   'The Earth Star'
+);
+
+INSERT INTO track (artist_id, title) VALUES (
+   2,
+   'Villanelle'
+);
+
+INSERT INTO track (artist_id, title) VALUES (
+   2,
+   'FFTC (Funk for the Cosmos)'
+);
+
+INSERT INTO track_release(track_id, release_id) VALUES (
+    6,
+    2
+);
+INSERT INTO track_release(track_id, release_id) VALUES (
+    7,
+    2
+);
+INSERT INTO track_release(track_id, release_id) VALUES (
+    8,
+    2
+);
+
 -- associate releases them with artists
 insert into artist_release (artist_id, release_id) values (1,1);
 insert into artist_release (artist_id, release_id) values (2,2);
 
-/*
 
+/*
+-- all Al's Magic tracks from Cosmic Takes
+
+select track.title from track
+join track_release on track.id = track_release.track_id 
+join release on release.id = track_release.release_id
+join artist on artist.id = release.artist_id
+where artist.name = "Al's Magic" and release.title = "Cosmic Takes"
+;
+
+*/
+/*
 select artist.name as ArtistName, artist.bio as Bio, member.first_name as FirstName, member.last_name as LastName from artist
 join artist_member on artist.id = artist_member.artist_id
 join member on artist_member.member_id = member_id;
