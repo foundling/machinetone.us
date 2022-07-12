@@ -1,0 +1,163 @@
+PRAGMA foreign_keys = ON;
+.headers on
+.mode column
+
+/*
+ PRIMARY ENTITIES AND RELATED ENUMERATED ATTRIBUTE TABLES 
+*/
+
+CREATE TABLE IF NOT EXISTS member (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    bio TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS artist (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    bio TEXT D NOT NULL DEFAULT ''
+);
+
+CREATE TABLE IF NOT EXISTS release (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    artist_id INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    release_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    release_type TEXT NOT NULL,
+    release_medium TEXT NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES artist(id)
+    FOREIGN KEY (release_type) REFERENCES release_type(id),
+    FOREIGN KEY (release_medium) REFERENCES release_medium(id)
+);
+
+/* instead of enum, which is not available in sqlite, release table uses 
+   a non-null foreign key to this table.
+*/
+CREATE TABLE IF NOT EXISTS release_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL DEFAULT('EP')
+);
+
+/* instead of enum (not avail in sqlite), release table uses 
+   a non-null foreign key to this table.
+*/
+CREATE TABLE IF NOT EXISTS release_medium (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL DEFAULT('digital')
+);
+
+
+CREATE TABLE IF NOT EXISTS track (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    artist_id INTEGER NOT NULL,
+    length_minutes INTEGER NOT NULL, 
+    length_seconds INTEGER NOT NULL
+);
+
+
+/* JUNCTION TABLES TO REPRESENT MANY-TO-MANY RELATIONSHIPS */
+
+/*
+ an artist can have many releases
+ a release can have many artists, e.g., a remix, a compilation ...
+*/
+CREATE TABLE IF NOT EXISTS artist_release (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    artist_id INTEGER NOT NULL,
+    release_id INTEGER NOT NULL,
+    FOREIGN KEY (artist_id) REFERENCES artist(id), 
+    FOREIGN KEY (release_id) REFERENCES release(id) 
+);
+
+/*
+ artist can have multiple members
+ member can be a part of many artists
+*/
+
+CREATE TABLE IF NOT EXISTS artist_member (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    member_id INTEGER NOT NULL,
+    artist_id INTEGER NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES member(id),
+    FOREIGN KEY (artist_id) REFERENCES artist(id)
+);
+
+/* 
+ a track can be on more than one release
+ a release can have more than one track
+*/
+
+CREATE TABLE IF NOT EXISTS track_release (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    track_id INTEGER NOT NULL,
+    release_id INTEGER NOT NULL,
+    FOREIGN KEY (track_id) REFERENCES track(id),
+    FOREIGN KEY (release_id) REFERENCES release(id)
+);
+
+-- create release types (...wish sqlite had enums)
+insert into release_type (type) values ('ep');
+insert into release_type (type) values ('lp');
+insert into release_type (type) values ('single');
+insert into release_type (type) values ('compilation');
+
+-- create release mediums (...wish sqlite had enums)
+insert into release_medium (type) values ('digital');
+insert into release_medium (type) values ('vinyl');
+insert into release_medium (type) values ('cd');
+insert into release_medium (type) values ('casette');
+
+-- create people
+INSERT INTO member (first_name, last_name, bio) values ('Justin','Reed','Chicago House DJ and Experimental Musician');
+INSERT INTO member (first_name, last_name, bio) values ('Alex', 'Ramsdell', 'Legendary Recluse');
+
+-- create artists
+INSERT INTO artist (name,  bio) values('floodreed', 'floodreed is an experimental modular synthesis artist');
+INSERT INTO artist (name,  bio) values("Al's Magic", 'Modern electro with a vintage vibe.');
+
+-- associate artists with people
+INSERT INTO artist_member (member_id, artist_id) values(1,1);
+INSERT INTO artist_member (member_id, artist_id) values(2,2);
+
+-- create releases
+INSERT INTO release (artist_id, title, release_date, description, release_type, release_medium) VALUES (
+    1,
+    'Chakrat EP',
+    '2022-04-18',
+    "Machine Tone presents Chakrat EP by floodreed. These songs are new and exciting visions of planets, plants and bodies in various states of growth and struggle. In terms of tracks, if the Chakrat triptych symphonizes the darkness of self-understanding, then 'Presettled Routine' and 'Illbient Excursion' downshift to a body-rhythm of inner reflection and curiosity.",
+    1,
+    1
+);
+
+INSERT INTO release (artist_id, title, release_date, description, release_type, release_medium) VALUES (
+    2,
+    'Cosmic Takes',
+    '2021-06-01',
+    "Cosmic Takes celebrates Detroit electro and a few other modern explorers. It's a funked-out, curious love letter to the greats. Drexciya, Cybotron, Juan Atkins, Mad Mike, Robert Hood, Kraftwerk, Suzanne Ciani.",
+    1,
+    1
+);
+
+-- associate releases them with artists
+insert into artist_release (artist_id, release_id) values (1,1);
+insert into artist_release (artist_id, release_id) values (2,2);
+
+/*
+
+select artist.name as ArtistName, artist.bio as Bio, member.first_name as FirstName, member.last_name as LastName from artist
+join artist_member on artist.id = artist_member.artist_id
+join member on artist_member.member_id = member_id;
+
+
+select
+    artist.name as Artist,
+    release.title as 'Release Title',
+    release_medium.type as Medium,
+    STRFTIME('%m/%d/%Y, %H:%M',  release.release_date) as ReleaseDate
+    from release
+join artist_release on release.id = artist_release.release_id
+join release_medium on release.release_medium = release_medium.id
+join artist on artist_release.id = artist.id;
+*/
