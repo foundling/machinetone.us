@@ -44,7 +44,7 @@ nav .nav-items > .nav-item {
 
 
 .selected-image {
-    background: url('floodreed-chakrat-ep.png');
+    background: url("{{ url_for('static', filename='img/floodreed-chakrat-ep.png') }}");
     background-size: cover;
     width: 400px;
     height: 400px;

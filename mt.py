@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+
 import sys
 import argparse
+
 def parse_args():
 
     def build(args):
@@ -27,10 +30,11 @@ def parse_args():
 
     return parser.parse_args(sys.argv[1:])
 
-
 def run():
 
     args = parse_args()
+
+    # TODO: doesn't call help if you just call 'mt.py'
     args.func(args)
 
 
