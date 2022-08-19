@@ -51,10 +51,12 @@ nav .nav-items > .nav-item {
 }
 
 .title {
-    width: 100%;
-    display: inline-flex;
+    width: 398px;
+    display: flex;
+    flex-direction: column;
     align-items: baseline;
     font-weight: lighter;
+    justify-content: space-between;
 }
 .title > .artist-name {
     padding-right: 10px;
@@ -69,7 +71,6 @@ nav .nav-items > .nav-item {
     font-weight: 200;
 }
 .release-title {
-    font-style: italic;
     font-weight: lighter;
 }
 
@@ -108,5 +109,4 @@ nav .nav-items > .nav-item {
 .feed-item-artist {
 }
 .feed-item-title {
-    font-style: italic;
 }
