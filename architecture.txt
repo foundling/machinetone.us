@@ -1,0 +1,32 @@
+app is locally developed, db and all.
+static site generated from db, pushed to Digital Ocean box.
+
+google spreadsheet is used as a convenient no-code power user admin panel for justin's convenience.  new data pulled from there. marked as updated when done.
+
+
+
+- pulls any new data from google sheets,
+- inserts into local database.
+
+mt artist db in sqlite.
+
+google sheets
+
+
+command line tool:
+
+mt build
+
+  builds the app locally from the sqlite
+
+mt update-db [--clean]
+
+  pulls new data from google sheets, marking database entries as 'uploaded' 
+
+  -- clean
+    removes data from the database that has been 'uploaded'
+
+mt deploy
+
+    uploads the site to DO box
+
