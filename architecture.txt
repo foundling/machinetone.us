@@ -30,3 +30,8 @@ mt deploy
 
     uploads the site to DO box
 
+
+--- google stuff
+
+service account is for application using google drive for its own data, not on behalf of user's data.
+https://developers.google.com/identity/protocols/oauth2/service-account#python
