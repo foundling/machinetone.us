@@ -1,7 +1,7 @@
 __pycache__
 env
 .env
-.credentials.json
+service_account.json
 .DS_Store
 build
 bugs.txt
