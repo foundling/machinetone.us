@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import gspread
 
 service_account = gspread.service_account(filename='service_account.json')
