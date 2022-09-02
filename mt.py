@@ -2,11 +2,10 @@
 
 import sys
 import argparse
-import freeze
+from freeze import freeze
 
 def build(**kwargs):
-
-    print('kwargs: ', kwargs)
+    freeze()
 
 def deploy(**kwargs):
     print('kwargs: ', kwargs)
@@ -45,6 +44,11 @@ def run():
         'update': update_db
     }
     command = commands.get(command)
+
+    if command is not None:
+        command()
+
+    sys.exit(0)
 
 
 if __name__ == '__main__':
