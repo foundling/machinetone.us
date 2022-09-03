@@ -93,9 +93,15 @@ nav .nav-items > .nav-item {
     margin-right: 10px;
 }
 
-.feed-item.selected, .nav-item.current-page {
+.feed-item.selected, .nav-item.current-page > a {
     color: rgba(255,99,99,1);
 }
+
+.nav-item > a {
+    color: white;
+    text-decoration: none;
+}
+
 .feed-item.selected {
 }
 

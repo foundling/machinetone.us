@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Artists{% endblock %}
+{% block header %}
+    <section>
+        <nav>
+            <h1>[ machine tone ]</h1>
+            <ul class="nav-items">
+               <li class="nav-item current-page">catalog</li>
+               <li class="nav-item">artists</li>
+               <li class="nav-item">about us</li>
+            </ul>
+        </nav>
+    </section>
+{% endblock %}
+
+{% block page_content %}
+<ul>
+    {% for release in releases %}
+    <li>{{ release }}</li>
+    {% endfor %}
+</ul>
+</main> 
+{% endblock %}

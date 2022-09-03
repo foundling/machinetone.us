@@ -1,66 +1,55 @@
-<!doctype>
-<html lang="en">
-    <head>
-        <title>Machine Tone</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css')}}" />
-    </head>
-    <body>
-        <!-- Catalog Page -->
-        <main class="page">
+{% extends "base.html" %}
 
-            <section>
-                <nav>
-                    <h1>[ machine tone ]</h1>
-                    <ul class="nav-items">
-                       <li class="nav-item current-page">catalog</li>
-                       <li class="nav-item">artists</li>
-                       <li class="nav-item">about us</li>
-                       <!--
-                       <li class="nav-item">media</li>
-                       <li class="nav-item">blog</li>
-                       <li class="nav-item">cart</li>
-                       -->
-                    </ul>
-                </nav>
-            </section>
+{% block title %}Home{% endblock %}
+{% block header %}
+    <section>
+        <nav>
+            <h1>[ machine tone ]</h1>
+            <ul class="nav-items">
+                <li class="nav-item current-page"><a href="/catalog">catalog</a></li>
+                <li class="nav-item"><a href="/artists">artists</a></li>
+                <li class="nav-item"><a href="/about">about us</a></li>
+            </ul>
+        </nav>
+    </section>
+{% endblock %}
 
-            <section class="feed"></section>
-                <ul class="feed">
-                    <table>
-                        <tr class="feed-item">
-                            <td class="date">10.22</td> <!-- release.date -->
-                            <td class="artist">Peter Norman</td> <!-- artist.name -->
-                            <td class="release">1234</td> <!-- release.title -->
-                        </tr>
-                        <tr class="feed-item ">
-                            <td class="date">7.22</td>
-                            <td class="artist">Alex Ramsdell</td>
-                            <td class="release">Some Dubs</td>
-                        </tr>
-                        <tr class="feed-item selected">
-                            <td class="date">4.22</td>
-                            <td class="artist">floodreed</td>
-                            <td class="release">Chakrat EP</td>
-                        </tr>
-                        <tr class="feed-item">
-                            <td class="date">6.21</td>
-                            <td class="artist">Al's Magic</td>
-                            <td class="release">Cosmic Takes</td>
-                        </tr>
-                    </table>
-                </ul>
-            </section>
+{% block page_content %}
+    <section class="feed"></section>
+        <ul class="feed">
+            <table>
+                <tr class="feed-item">
+                    <td class="date">10.22</td> <!-- release.date -->
+                    <td class="artist">Peter Norman</td> <!-- artist.name -->
+                    <td class="release">1234</td> <!-- release.title -->
+                </tr>
+                <tr class="feed-item ">
+                    <td class="date">7.22</td>
+                    <td class="artist">Alex Ramsdell</td>
+                    <td class="release">Some Dubs</td>
+                </tr>
+                <tr class="feed-item selected">
+                    <td class="date">4.22</td>
+                    <td class="artist">floodreed</td>
+                    <td class="release">Chakrat EP</td>
+                </tr>
+                <tr class="feed-item">
+                    <td class="date">6.21</td>
+                    <td class="artist">Al's Magic</td>
+                    <td class="release">Cosmic Takes</td>
+                </tr>
+            </table>
+        </ul>
+    </section>
 
 
-            <section>
-                <div class="title">
-                    <h2 class="artist-name">floodreed</h2>
-                    <h2 class="release-title">Chakrat EP</h2>
-                </div>
-                <img class="selected-image"></img>
-            </section>
+    <section>
+        <div class="title">
+            <h2 class="artist-name">floodreed</h2>
+            <h2 class="release-title">Chakrat EP</h2>
+        </div>
+        <img class="selected-image"></img>
+    </section>
 
-        </main> 
-    </body>
-</html>
-
+</main> 
+{% endblock %}

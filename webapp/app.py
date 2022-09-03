@@ -6,5 +6,19 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/artists')
+def artists():
+    artists = ["Al's Magic","floodreed"]
+    return render_template('artists.html', artists=artists)
+
+@app.route('/releases')
+def releases():
+    releases = ["Cosmic Takes","Chakrat EP"]
+    return render_template('releases.html', releases=releases)
+
+
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
