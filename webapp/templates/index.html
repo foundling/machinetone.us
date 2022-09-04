@@ -3,41 +3,17 @@
 {% block title %}Home{% endblock %}
 
 {% block page_content %}
-    <section class="feed"></section>
-        <ul class="feed">
-            <table>
-                <tr class="feed-item">
-                    <td class="date">10.22</td> <!-- release.date -->
-                    <td class="artist">Peter Norman</td> <!-- artist.name -->
-                    <td class="release">1234</td> <!-- release.title -->
-                </tr>
-                <tr class="feed-item ">
-                    <td class="date">7.22</td>
-                    <td class="artist">Alex Ramsdell</td>
-                    <td class="release">Some Dubs</td>
-                </tr>
-                <tr class="feed-item selected">
-                    <td class="date">4.22</td>
-                    <td class="artist">floodreed</td>
-                    <td class="release">Chakrat EP</td>
-                </tr>
-                <tr class="feed-item">
-                    <td class="date">6.21</td>
-                    <td class="artist">Al's Magic</td>
-                    <td class="release">Cosmic Takes</td>
-                </tr>
-            </table>
-        </ul>
-    </section>
+<section class="latest">
 
+    <a href="/catalog/mt004">
+        <header>
+            <h1>MT004</h1>
+            <h2 class="artist">Allen Fingerlake</h2>
+            <h3 class="release">Reintroductions</h3>
+        </header>
+        <img src='{{ url_for("static", filename="img/fingerlake-reintroductions.png") }}' />
+        <p class="short-description">Essais in minimal techno. Living inside of stillness.</p>
+    </a>
 
-    <section>
-        <div class="title">
-            <h2 class="artist-name">floodreed</h2>
-            <h2 class="release-title">Chakrat EP</h2>
-        </div>
-        <img class="selected-image"></img>
-    </section>
-
-</main> 
+</section>
 {% endblock %}

@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', endpoint=request.endpoint)
 
 @app.route('/artists')
 def artists():
@@ -16,6 +16,10 @@ def artists():
 def catalog():
     releases = ["Cosmic Takes","Chakrat EP"]
     return render_template('catalog.html', releases=releases, endpoint=request.endpoint)
+
+@app.route('/catalog/<release>')
+def catalog_item(release):
+    return render_template('release.html', release=release)
 
 @app.route('/about')
 def about():

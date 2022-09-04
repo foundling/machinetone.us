@@ -1,12 +1,15 @@
 body {
-    background: black;
+    background: #313131;
     color: white;
     font-family: sans-serif;
     height: 100%;
+    max-height: 100%;
     width: 100%;
+    box-sizing: border-box;
+    margin: 10px;
 }
 
-body, body * {
+body * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -18,122 +21,89 @@ main {
     width: 50%;
 }
 
-.about > p > a {
-    color:  rgba(255,99,99,1);
-}
-
 a {
     text-decoration: none;
     color: white;
+}
+
+a:hover {
+    color:  rgba(255,99,99,1);
 }
 
 li {
     list-style-type: none;
 }
 
-header > a.site-link {
-    color: white;
-}
-
-.page {
-    height: 100%;
-    width: 100%;
-}
-
 nav {
     width: 100%;
-}
-
-nav {
     align-items: baseline;
 }
 
-
 nav, nav > .nav-items {
-    display: inline-flex;
-    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
 }
+
+nav > .nav-items {
+    margin-top: 10px;
+}
+
+/*
+.nav-items.hidden {
+    visibility: hidden;
+}
+*/
 
 nav .nav-items > .nav-item {
     list-style-type: none;
-    margin: 20px 10px;
-}
-
-.nav-items {
-    padding-left: 10px;
-}
-
-
-.selected-image {
-    background-image: url("/static/img/floodreed-chakrat-ep.png");
-    background-size: cover;
-    width: 400px;
-    height: 400px;
-}
-
-.title {
-    width: 398px;
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    font-weight: lighter;
-    justify-content: space-between;
-}
-.title > .artist-name {
-    padding-right: 10px;
-}
-
-.artist-name, .release-title {
-    margin: 10px 0px;
-
-}
-
-.artist-name {
-    font-weight: 200;
-}
-.release-title {
-    font-weight: lighter;
-}
-
-.release-title > .art {
-    max-width: 200px;
-    max-height: 200px;
-}
-
-.category {
-    display: inline-block;
-    padding: 20px;
-    font-weight: 200;
-}
-
-.feed {
-    margin-left: 0;
-    padding-left: 0;
-}
-.feed td {
-    margin-right: 10px;
-}
-
-.feed-item.selected, .nav-item.current-page > a {
-    color: rgba(255,99,99,1);
+    margin: 2px;
 }
 
 .nav-item > a {
-    color: white;
-    text-decoration: none;
+    background-color: white;
+    color: #313131;
+    padding: 2px;
+}
+.nav-item > a:hover {
+    color:  rgba(255,99,99,1);
+
 }
 
-.feed-item.selected {
+.short-description {
+    margin-top: 10px;
+    font-weight: lighter;
 }
 
-.feed-item > td {
-    padding-right: 10px;
+main.page-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin-top: -100px;
 }
 
-.feed-item-date {
+.latest {
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+}
+.latest > a > header > h1,
+.latest > a > header > h2,
+.latest > a > header > h3 {
+    margin-bottom: 5px;
+    width: 100%;
 }
 
-.feed-item-artist {
+.latest > a > header > h3 {
+    font-style: italic;
+    font-weight: lighter;
 }
-.feed-item-title {
+
+.latest img {
+    height: 100%;
+    width: 100%;
+}
+.about > p > a {
+    color:  rgba(255,99,99,1);
 }
