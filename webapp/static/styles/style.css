@@ -6,12 +6,33 @@ body {
     width: 100%;
 }
 
-body * {
+body, body * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 100%;
+    line-height: 1.5em;
+    width: 50%;
+}
+
+.about > p > a {
+    color:  rgba(255,99,99,1);
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 li {
     list-style-type: none;
+}
+
+header > a.site-link {
+    color: white;
 }
 
 .page {
