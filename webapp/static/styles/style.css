@@ -44,17 +44,11 @@ nav, nav > .nav-items {
     flex-direction: column;
 }
 
-nav > .nav-items {
+.nav-items {
     margin-top: 10px;
 }
 
-/*
-.nav-items.hidden {
-    visibility: hidden;
-}
-*/
-
-nav .nav-items > .nav-item {
+.nav-item {
     list-style-type: none;
     margin: 2px;
 }
@@ -64,9 +58,14 @@ nav .nav-items > .nav-item {
     color: #313131;
     padding: 2px;
 }
+
 .nav-item > a:hover {
     color:  rgba(255,99,99,1);
 
+}
+
+.nav-item.current-page > a {
+    color:  rgba(255,99,99,1);
 }
 
 .short-description {
