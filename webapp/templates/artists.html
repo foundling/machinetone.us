@@ -4,7 +4,8 @@
 {% block page_content %}
 <ul>
     {% for artist in artists %}
-    <li>{{ artist }}</li>
+    <li>{{ artist.name }}</li>
+    <li>{{ artist.bio }}</li>
     {% endfor %}
 </ul>
 </main> 

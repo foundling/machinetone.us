@@ -1,11 +1,16 @@
 import os
 import sqlite3
+import sys
 
 from flask import Flask, render_template, request
-import db
 
 app = Flask(__name__)
 
+def get_db_con():
+    db_path = os.path.join(os.path.dirname(__file__), 'db', 'mt.db')
+    con = sqlite3.connect(db_path)
+    con.row_factory = sqlite3.Row
+    return con.cursor()
 
 @app.route('/')
 def index():
@@ -13,7 +18,9 @@ def index():
 
 @app.route('/artists')
 def artists():
-    return render_template('artists.html')
+    cur = get_db_con()
+    artists = cur.execute('select * from artist')
+    return render_template('artists.html', artists=artists)
 
 @app.route('/catalog')
 def catalog():
@@ -35,4 +42,5 @@ def admin():
 
 
 if __name__ == '__main__':
+
     app.run(debug=True)
