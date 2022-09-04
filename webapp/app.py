@@ -1,29 +1,31 @@
+import os
+import sqlite3
+
 from flask import Flask, render_template, request
+import db
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-    return render_template('index.html', endpoint=request.endpoint)
+    return render_template('index.html')
 
 @app.route('/artists')
 def artists():
-    print(request.endpoint)
-    artists = ["Al's Magic","floodreed"]
-    return render_template('artists.html', artists=artists, endpoint=request.endpoint)
+    return render_template('artists.html')
 
 @app.route('/catalog')
 def catalog():
-    releases = ["Cosmic Takes","Chakrat EP"]
-    return render_template('catalog.html', releases=releases, endpoint=request.endpoint)
+    return render_template('catalog.html')
 
 @app.route('/catalog/<release>')
 def catalog_item(release):
-    return render_template('release.html', release=release)
+    return render_template('release.html', release={})
 
 @app.route('/about')
 def about():
-    return render_template('about.html', endpoint=request.endpoint)
+    return render_template('about.html')
 
 
 # don't freeze this
