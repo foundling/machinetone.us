@@ -16,6 +16,11 @@ def releases():
     releases = ["Cosmic Takes","Chakrat EP"]
     return render_template('releases.html', releases=releases)
 
+# don't freeze this
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
 
 
 
