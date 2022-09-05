@@ -5,8 +5,13 @@
 {% block page_content %}
 <ul>
     {% for release in releases %}
-    <li>{{ release }}</li>
+        <li>{{ release['title'] }}</li>
+        <li>{{ release['description'] }}</li>
+        <li>{{ release['release_date'] }}</li>
+        <!--
+        <li>{{ release['release_type'] }}</li>
+        <li>{{ release['release_format'] }}</li>
+        -->
     {% endfor %}
 </ul>
-</main> 
 {% endblock %}

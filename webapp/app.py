@@ -8,9 +8,11 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 def get_db_cur():
+
     db_path = os.path.join(os.path.dirname(__file__), 'db', 'mt.db')
     con = sqlite3.connect(db_path)
     con.row_factory = sqlite3.Row
+
     return con.cursor()
 
 @app.route('/')
@@ -19,22 +21,27 @@ def index():
 
 @app.route('/artists')
 def artists():
+
     cur = get_db_cur()
     artists = cur.execute('select * from artist')
+
     return render_template('artists.html', artists=artists)
 
 @app.route('/catalog')
 def catalog():
-    return render_template('catalog.html')
+
+    cur = get_db_cur()
+    releases = cur.execute('select * from release').fetchall()
+
+    return render_template('catalog.html', releases=releases)
 
 @app.route('/catalog/<release>')
 def catalog_item(release):
-    return render_template('release.html', release={})
+    return render_template('release.html')
 
 @app.route('/about')
 def about():
     return render_template('about.html')
-
 
 # don't freeze this
 @app.route('/admin')
