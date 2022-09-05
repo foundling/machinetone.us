@@ -11,7 +11,7 @@
                 <a class="site-link" href="/">[ machine tone ]</a>
             </header>
             {% if request.endpoint != 'admin' %}
-            <ul id="nav-dropdown" class="nav-items hidden">
+            <ul id="nav-dropdown" class="nav-items {% if request.endpoint == 'about' %}hidden{% endif %}">
                 <li class="nav-item {% if request.endpoint == 'artists' %}current-page{% endif %}"><a href="/artists">artists</a></li>
                 <li class="nav-item {% if request.endpoint == 'catalog' %}current-page{% endif %}"><a href="/catalog">catalog</a></li>
                 <li class="nav-item {% if request.endpoint == 'about' %}current-page{% endif %}"><a href="/about">about us</a></li>
@@ -22,6 +22,7 @@
             {% block page_content %}
             {% endblock %}
         </main>
+        <script src="{{url_for('static', filename='scripts/nav.js')}}"></script>
     </body>
 </html>
 
