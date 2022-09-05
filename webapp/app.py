@@ -23,6 +23,10 @@ def home():
 def newsletter():
     return render_template('newsletter.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/artists')
 def artists():
 
@@ -30,6 +34,10 @@ def artists():
     artists = cur.execute('select * from artist')
 
     return render_template('artists.html', artists=artists)
+
+@app.route('/artists/<artist_name>')
+def artist(artist_name):
+    return render_template('artist.html', artist=artist_name)
 
 @app.route('/catalog')
 def catalog():
@@ -39,13 +47,9 @@ def catalog():
 
     return render_template('catalog.html', releases=releases)
 
-@app.route('/catalog/<release>')
-def catalog_item(release):
-    return render_template('release.html')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/catalog/<release_number>')
+def catalog_item(release_number):
+    return render_template('release.html', release=release_number)
 
 # don't freeze this
 @app.route('/admin')
