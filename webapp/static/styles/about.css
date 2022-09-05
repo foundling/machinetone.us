@@ -1,0 +1,17 @@
+.page-about {
+    justify-content: flex-start;
+}
+
+.about > p > a {
+    color:  rgba(255,99,99,1);
+}
+
+.page-about {
+}
+
+@media(max-width: 500px) {
+
+    .page-about {
+    }
+
+}

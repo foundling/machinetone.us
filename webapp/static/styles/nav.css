@@ -1,0 +1,33 @@
+nav {
+    width: 100%;
+    align-items: baseline;
+}
+
+nav, nav > .nav-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-items {
+    margin-top: 10px;
+}
+
+.nav-item {
+    list-style-type: none;
+    margin: 2px;
+}
+
+.nav-item > a {
+    background-color: white;
+    color: #313131;
+    padding: 2px;
+}
+
+.nav-item > a:hover {
+    color:  rgba(255,99,99,1);
+
+}
+
+.nav-item.current-page > a {
+    color:  rgba(255,99,99,1);
+}

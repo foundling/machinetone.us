@@ -16,8 +16,12 @@ def get_db_cur():
     return con.cursor()
 
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
+
+@app.route('/newsletter')
+def newsletter():
+    return render_template('newsletter.html')
 
 @app.route('/artists')
 def artists():
