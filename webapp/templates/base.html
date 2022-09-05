@@ -1,7 +1,7 @@
 <!doctype>
 <html lang="en">
     <head>
-        <title>Machine Tone - {% block title %}{% endblock %}</title>
+        <title >Machine Tone - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/nav.css') }}" />
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}" />
@@ -24,7 +24,7 @@
     </head>
     <body>
         <nav>
-            <header id="nav-dropdown-target">
+            <header class="{% if request.endpoint == 'home' %}current-page{% endif %}" id="nav-dropdown-target">
                 <a class="site-link" href="/">[ machine tone ]</a>
             </header>
             {% if request.endpoint != 'admin' %}

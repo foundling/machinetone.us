@@ -28,6 +28,8 @@ nav, nav > .nav-items {
 
 }
 
-.nav-item.current-page > a {
+.nav-item.current-page > a,
+#nav-dropdown-target.current-page > a {
     color:  rgba(255,99,99,1);
 }
+

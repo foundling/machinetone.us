@@ -23,14 +23,10 @@ body * {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     padding-left: 20%;
     padding-right: 20%;
     flex: 1;
 }
-
-
-
 
 a {
     text-decoration: none;
