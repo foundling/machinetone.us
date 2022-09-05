@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS artist (
 
 CREATE TABLE IF NOT EXISTS genre (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    genre TEXT NOT NULL UNIQUE
+    name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS release (
@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS release (
     description TEXT NOT NULL,
     release_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     release_type TEXT NOT NULL,
-    release_medium TEXT NOT NULL,
+    release_format TEXT NOT NULL,
     FOREIGN KEY (artist_id) REFERENCES artist(id)
     FOREIGN KEY (release_type) REFERENCES release_type(id),
-    FOREIGN KEY (release_medium) REFERENCES release_medium(id)
+    FOREIGN KEY (release_format) REFERENCES release_format(id)
 );
 
 /* instead of enum, which is not available in sqlite, release table uses 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS release_type (
 /* instead of enum (not avail in sqlite), release table uses 
    a non-null foreign key to this table.
 */
-CREATE TABLE IF NOT EXISTS release_medium (
+CREATE TABLE IF NOT EXISTS release_format (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type TEXT NOT NULL DEFAULT('digital')
 );
@@ -109,10 +109,10 @@ insert into release_type (type) values ('single');
 insert into release_type (type) values ('compilation');
 
 -- create release mediums (...wish sqlite had enums)
-insert into release_medium (type) values ('digital');
-insert into release_medium (type) values ('vinyl');
-insert into release_medium (type) values ('cd');
-insert into release_medium (type) values ('casette');
+insert into release_format (type) values ('digital');
+insert into release_format (type) values ('vinyl');
+insert into release_format (type) values ('cd');
+insert into release_format (type) values ('cassette');
 
 -- create people
 INSERT INTO member (first_name, last_name, bio) values ('Justin','Reed','Chicago House DJ and Experimental Musician');
@@ -127,7 +127,7 @@ INSERT INTO artist_member (member_id, artist_id) values(1,1);
 INSERT INTO artist_member (member_id, artist_id) values(2,2);
 
 -- create releases
-INSERT INTO release (artist_id, title, release_date, description, release_type, release_medium) VALUES (
+INSERT INTO release (artist_id, title, release_date, description, release_type, release_format) VALUES (
     1,
     'Chakrat EP',
     '2022-04-18',
@@ -136,7 +136,36 @@ INSERT INTO release (artist_id, title, release_date, description, release_type, 
     1
 );
 
-INSERT INTO release (artist_id, title, release_date, description, release_type, release_medium) VALUES (
+-- create genres
+INSERT INTO genre (name) VALUES (
+    'techno'
+);
+
+INSERT INTO genre (name) VALUES (
+    'electro'
+);
+
+INSERT INTO genre (name) VALUES (
+    'house'
+); 
+
+INSERT INTO genre (name) VALUES (
+    'dub techno'
+);
+
+INSERT INTO genre (name) VALUES (
+    'ambient'
+);
+
+INSERT INTO genre (name) VALUES (
+    'experimental'
+);
+
+INSERT INTO genre (name) VALUES (
+    'film score'
+);
+
+INSERT INTO release (artist_id, title, release_date, description, release_type, release_format) VALUES (
     2,
     'Cosmic Takes',
     '2021-06-01',
@@ -253,10 +282,10 @@ join member on artist_member.member_id = member_id;
 select
     artist.name as Artist,
     release.title as 'Release Title',
-    release_medium.type as Medium,
+    release_format.type as Medium,
     STRFTIME('%m/%d/%Y, %H:%M',  release.release_date) as ReleaseDate
     from release
 join artist_release on release.id = artist_release.release_id
-join release_medium on release.release_medium = release_medium.id
+join release_format on release.release_format = release_format.id
 join artist on artist_release.id = artist.id;
 */

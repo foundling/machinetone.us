@@ -1,12 +1,13 @@
 import os
 import sqlite3
 import sys
+from datetime import datetime
 
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-def get_db_con():
+def get_db_cur():
     db_path = os.path.join(os.path.dirname(__file__), 'db', 'mt.db')
     con = sqlite3.connect(db_path)
     con.row_factory = sqlite3.Row
@@ -18,7 +19,7 @@ def index():
 
 @app.route('/artists')
 def artists():
-    cur = get_db_con()
+    cur = get_db_cur()
     artists = cur.execute('select * from artist')
     return render_template('artists.html', artists=artists)
 
@@ -38,7 +39,16 @@ def about():
 # don't freeze this
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+
+    cur = get_db_cur()
+
+    artists = cur.execute('select id, name from artist').fetchall()
+    genres = cur.execute('select id, name from genre').fetchall()
+    formats = cur.execute('select id, type from release_format').fetchall()
+
+    today = datetime.strftime(datetime.now(), "%Y-%m-%d")
+
+    return render_template('admin.html', artists=artists, genres=genres, formats=formats, today=today)
 
 
 if __name__ == '__main__':
