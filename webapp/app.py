@@ -57,6 +57,12 @@ def admin():
 
     return render_template('admin.html', artists=artists, genres=genres, formats=formats, today=today)
 
+@app.route('/update', methods=['POST'])
+def update():
+    d = request.form.to_dict(flat=False)
+    for k,v in d.items():
+        print(f"{k}: {','.join(v)}")
+    return render_template('update.html')
 
 if __name__ == '__main__':
 

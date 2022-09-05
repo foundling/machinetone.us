@@ -6,61 +6,67 @@
 
 {% block page_content %}
 
-<section class="artist-info">
+<form name="artist-update-form" action="/update" method="post">
+    <section class="artist-info">
 
-    <div class="artist-select">
-        <label>Select an Artist:</label>
-        <select name="selected-artist" autofocus>
-            <option value="">-------------</option>
-            {% for artist in artists %}
-                <option value="{{ artist.id }}">{{ artist.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
+        <div class="artist-select">
+            <label>Select an Artist:</label>
+            <select name="selected-artist-id" autofocus>
+                <option value="">-------------</option>
+                {% for artist in artists %}
+                    <option value="{{ artist.id }}">{{ artist.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-    <div>or</div>
+        <div>or</div>
 
-    <div class="add-artist">
-        <label>Specify a New Artist:</label>
-        <input name="new-artist" placeholder="new artist name" />
-    </div>
+        <div class="add-artist">
+            <label>Specify a New Artist:</label>
+            <input name="new-artist-name" placeholder="new artist name" />
+        </div>
 
-</section>
+    </section>
 
-<section class="release-info">
-    <div class="release-title">
-        <label>Release</label>
-        <input name="release-title" class="release-title" placeholder="release title"/>
-    </div>
-    <div class="release-info">
-        <label>Release Information</label>
-        <textarea name="release-info" placeholder="release information"></textarea>
-    </div>
-    <div class="release-date">
-        <label>Release Date</label>
-        <input type="date" value="{{ today }}" name="release-date"></input>
-    </div>
-    <div class="release-genre">
-        <label>Genre</label>
-        <select multiple class="release-genre-select">
-            <option value="">-------------</option>
-            {% for genre in genres %} 
-                <option value="{{ genre.id }}">{{ genre.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    <section class="release-info">
 
-    <div class="release-format">
-        <label>Release Format(s)</label>
-        <select multiple class="release-format-select">
-            <option value="">-------------</option>
-            {% for format in formats %} 
-                <option value="{{ format['id'] }}">{{ format['type'] }}</option>
-            {% endfor %}
-        </select>
-    </div>
+        <div class="release-title">
+            <label>Release</label>
+            <input name="release-title" class="release-title" placeholder="release title"/>
+        </div>
 
-    <button type="submit">Submit</button>
-</section>
+        <div class="release-info">
+            <label>Release Information</label>
+            <textarea name="release-info" placeholder="release information"></textarea>
+        </div>
 
+        <div class="release-date">
+            <label>Release Date</label>
+            <input type="date" value="{{ today }}" name="release-date"></input>
+        </div>
+
+        <div class="release-genre">
+            <label>Genre</label>
+            <select name="release-genre-ids" multiple id="release-genre-id" class="release-genre-id">
+                <option value="">-------------</option>
+                {% for genre in genres %} 
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="release-format">
+            <label>Release Format(s)</label>
+            <select name="release-format-ids" multiple class="release-format-id">
+                <option value="">-------------</option>
+                {% for format in formats %} 
+                    <option value="{{ format.id }}">{{ format.type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Submit</button>
+    </section>
+
+</form>
 {% endblock %}
