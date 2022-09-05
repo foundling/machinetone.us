@@ -3,5 +3,4 @@ const nav = document.getElementById('nav-dropdown')
 
 header.addEventListener('mouseover', () => {
     nav.classList.remove('hidden');
-    console.log('hi')
 });

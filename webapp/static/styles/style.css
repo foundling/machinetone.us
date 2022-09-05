@@ -17,7 +17,10 @@ body * {
 
 main {
     line-height: 1.5em;
-    width: 50%;
+}
+main.page-about,
+main.page-index {
+
 }
 
 a {
@@ -82,7 +85,7 @@ main.page-index {
 }
 
 .hidden {
-    visibility: hidden;
+    opacity: 0;
 }
 
 .latest {
@@ -106,11 +109,18 @@ main.page-index {
     height: 100%;
     width: 100%;
 }
+
 .about > p > a {
     color:  rgba(255,99,99,1);
 }
 
 .page-about {
-    max-width: 400px;
     font-size: 4em;
 }
+.page-about > .about {
+    width: 100%;
+    padding-left: 20%;
+    margin: 220px 0px auto;
+    padding-right: 20%;
+}
+
