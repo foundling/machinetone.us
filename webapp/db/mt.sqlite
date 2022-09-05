@@ -19,6 +19,11 @@ CREATE TABLE IF NOT EXISTS artist (
     bio TEXT D NOT NULL DEFAULT ''
 );
 
+CREATE TABLE IF NOT EXISTS genre (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    genre TEXT NOT NULL UNIQUE
+);
+
 CREATE TABLE IF NOT EXISTS release (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     artist_id INTEGER NOT NULL,
@@ -89,7 +94,7 @@ CREATE TABLE IF NOT EXISTS artist_member (
  a release can have more than one track
 */
 
-CREATE TABLE IF NOT EXISTS track_release (
+CREATE TABLE IF NOT EXISTS release_track (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     track_id INTEGER NOT NULL,
     release_id INTEGER NOT NULL,
@@ -142,75 +147,84 @@ INSERT INTO release (artist_id, title, release_date, description, release_type, 
 
 -- associate tracks with releases
 -- Floodreed - Chakrat EP
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    1,
-   'Chakrat in C (first encounter)'
+   'Chakrat in C (first encounter)',
+   185
 );
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    1,
-   'Chakrat in C (second exposure)'
+   'Chakrat in C (second exposure)',
+   117
+
 );
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    1,
-   'Chakrat in C (final visit)'
+   'Chakrat in C (final visit)',
+   298
 );
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    1,
-   'Presettled Routine'
+   'Presettled Routine',
+   262
 );
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    1,
-   'Illbient Excursion'
+   'Illbient Excursion',
+   270
 );
 
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     1,
     1
 );
 
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     2,
     1
 );
 
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     3,
     1
 );
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     4,
     1
 );
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     5,
     1
 );
 
 -- Al's Magic - Cosmic Takes
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    2,
-   'The Earth Star'
+   'The Earth Star',
+   236
 );
 
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    2,
-   'Villanelle'
+   'Villanelle',
+   242
 );
 
-INSERT INTO track (artist_id, title) VALUES (
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
    2,
-   'FFTC (Funk for the Cosmos)'
+   'FFTC (Funk for the Cosmos)',
+   282
 );
 
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     6,
     2
 );
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     7,
     2
 );
-INSERT INTO track_release(track_id, release_id) VALUES (
+INSERT INTO release_track(track_id, release_id) VALUES (
     8,
     2
 );
@@ -224,8 +238,8 @@ insert into artist_release (artist_id, release_id) values (2,2);
 -- all Al's Magic tracks from Cosmic Takes
 
 select track.title from track
-join track_release on track.id = track_release.track_id 
-join release on release.id = track_release.release_id
+join release_track on track.id = release_track.track_id 
+join release on release.id = release_track.release_id
 join artist on artist.id = release.artist_id
 where artist.name = "Al's Magic" and release.title = "Cosmic Takes"
 ;
@@ -235,7 +249,6 @@ where artist.name = "Al's Magic" and release.title = "Cosmic Takes"
 select artist.name as ArtistName, artist.bio as Bio, member.first_name as FirstName, member.last_name as LastName from artist
 join artist_member on artist.id = artist_member.artist_id
 join member on artist_member.member_id = member_id;
-
 
 select
     artist.name as Artist,
