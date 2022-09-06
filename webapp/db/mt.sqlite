@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS genre (
 
 CREATE TABLE IF NOT EXISTS release (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    catalog_number TEXT NOT NULL UNIQUE,
     artist_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -114,28 +115,6 @@ insert into release_format (type) values ('vinyl');
 insert into release_format (type) values ('cd');
 insert into release_format (type) values ('cassette');
 
--- create people
-INSERT INTO member (first_name, last_name, bio) values ('Justin','Reed','Chicago House DJ and Experimental Musician');
-INSERT INTO member (first_name, last_name, bio) values ('Alex', 'Ramsdell', 'Legendary Recluse');
-
--- create artists
-INSERT INTO artist (name,  bio) values('floodreed', 'floodreed is an experimental modular synthesis artist');
-INSERT INTO artist (name,  bio) values("Al's Magic", 'Modern electro with a vintage vibe.');
-
--- associate artists with people
-INSERT INTO artist_member (member_id, artist_id) values(1,1);
-INSERT INTO artist_member (member_id, artist_id) values(2,2);
-
--- create releases
-INSERT INTO release (artist_id, title, release_date, description, release_type, release_format) VALUES (
-    1,
-    'Chakrat EP',
-    '2022-04-18',
-    "Machine Tone presents Chakrat EP by floodreed. These songs are new and exciting visions of planets, plants and bodies in various states of growth and struggle. In terms of tracks, if the Chakrat triptych symphonizes the darkness of self-understanding, then 'Presettled Routine' and 'Illbient Excursion' downshift to a body-rhythm of inner reflection and curiosity.",
-    1,
-    1
-);
-
 -- create genres
 INSERT INTO genre (name) VALUES (
     'techno'
@@ -165,11 +144,48 @@ INSERT INTO genre (name) VALUES (
     'film score'
 );
 
-INSERT INTO release (artist_id, title, release_date, description, release_type, release_format) VALUES (
-    2,
+-- create people
+INSERT INTO member (first_name, last_name, bio) values ('Alex', 'Ramsdell', 'Legendary Recluse');
+INSERT INTO member (first_name, last_name, bio) values ('Justin','Reed','Chicago House DJ and Experimental Musician');
+
+-- create artists
+INSERT INTO artist (name,  bio) values("Al's Magic", 'Modern electro with a vintage vibe.');
+INSERT INTO artist (name,  bio) values('floodreed', 'floodreed is an experimental modular synthesis artist.');
+INSERT INTO artist (name,  bio) values("Allen Fingerlake", 'Minimal techno.');
+
+-- associate artists with people
+INSERT INTO artist_member (member_id, artist_id) values(1,1);
+INSERT INTO artist_member (member_id, artist_id) values(2,2);
+INSERT INTO artist_member (member_id, artist_id) values(2,3);
+
+
+-- create releases
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+    1,
+    'MT001',
     'Cosmic Takes',
     '2021-06-01',
-    "Cosmic Takes celebrates Detroit electro and a few other modern explorers. It's a funked-out, curious love letter to the greats. Drexciya, Cybotron, Juan Atkins, Mad Mike, Robert Hood, Kraftwerk, Suzanne Ciani.",
+    "Cosmic Takes is a funked-out love letter to Detroit electro.",
+    1,
+    1
+);
+
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+    2,
+    'MT002',
+    'Chakrat EP',
+    '2022-04-18',
+    "Machine Tone presents Chakrat EP by floodreed. These songs are new and exciting visions of planets, plants and bodies in various states of growth and struggle. In terms of tracks, if the Chakrat triptych symphonizes the darkness of self-understanding, then 'Presettled Routine' and 'Illbient Excursion' downshift to a body-rhythm of inner reflection and curiosity.",
+    1,
+    1
+);
+
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+    3,
+    'MT003',
+    'Reintroductions',
+    '2022-10-01',
+    "Minimal dub-ish techno.",
     1,
     1
 );
@@ -177,28 +193,28 @@ INSERT INTO release (artist_id, title, release_date, description, release_type, 
 -- associate tracks with releases
 -- Floodreed - Chakrat EP
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   1,
+   2,
    'Chakrat in C (first encounter)',
    185
 );
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   1,
+   2,
    'Chakrat in C (second exposure)',
    117
 
 );
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   1,
+   2,
    'Chakrat in C (final visit)',
    298
 );
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   1,
+   2,
    'Presettled Routine',
    262
 );
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   1,
+   2,
    'Illbient Excursion',
    270
 );
@@ -228,19 +244,19 @@ INSERT INTO release_track(track_id, release_id) VALUES (
 
 -- Al's Magic - Cosmic Takes
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   2,
+   1,
    'The Earth Star',
    236
 );
 
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   2,
+   1,
    'Villanelle',
    242
 );
 
 INSERT INTO track (artist_id, title, length_seconds) VALUES (
-   2,
+   1,
    'FFTC (Funk for the Cosmos)',
    282
 );
@@ -256,6 +272,30 @@ INSERT INTO release_track(track_id, release_id) VALUES (
 INSERT INTO release_track(track_id, release_id) VALUES (
     8,
     2
+);
+
+
+-- Allen Fingerlake - Reintroductions
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
+   3,
+   'Have We Met?',
+   216
+);
+
+INSERT INTO track (artist_id, title, length_seconds) VALUES (
+   3,
+   "We've Met",
+   705
+);
+
+INSERT INTO release_track(track_id, release_id) VALUES (
+    6,
+    3
+);
+
+INSERT INTO release_track(track_id, release_id) VALUES (
+    7,
+    3
 );
 
 -- associate releases them with artists
