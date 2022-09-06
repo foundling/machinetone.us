@@ -4,6 +4,9 @@ import sys
 import argparse
 from freeze import freeze
 
+# check this out for example of subcommand w/ functioning help:
+# https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html
+
 def build(**kwargs):
     freeze()
 
