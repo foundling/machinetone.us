@@ -65,8 +65,18 @@
             </select>
         </div>
 
+        <section id="release-tracks" class="release-tracks">
+            <p>Add Track<button id="add-track-button"> + </button></p>
+            <ul id="release-track-list">
+            </ul>
+        </section>
+
         <button type="submit">Submit</button>
     </section>
 
+
 </form>
+{% endblock %}
+{% block scripts %}
+    <script src="{{url_for('static',filename='scripts/admin.js')}}"></script>
 {% endblock %}

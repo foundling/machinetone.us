@@ -88,7 +88,9 @@ def catalog_item(catalog_number):
     print(release)
     return render_template('release.html', release=release)
 
-# don't freeze this
+# NOTE: make sure to not freeze admin and update stuff.
+# this is going to change, using react for front-end in local-only admin panel 
+# will possibly return some sort of json
 @app.route('/admin')
 def admin():
 
