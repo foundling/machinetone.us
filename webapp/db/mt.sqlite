@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS member (
 CREATE TABLE IF NOT EXISTS artist (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE,
-    bio TEXT D NOT NULL DEFAULT ''
+    bio TEXT NOT NULL DEFAULT '',
+    url TEXT NOT NULL DEFAULT ''
 );
 
 CREATE TABLE IF NOT EXISTS genre (
@@ -149,9 +150,9 @@ INSERT INTO member (first_name, last_name, bio) values ('Alex', 'Ramsdell', 'Leg
 INSERT INTO member (first_name, last_name, bio) values ('Justin','Reed','Chicago House DJ and Experimental Musician');
 
 -- create artists
-INSERT INTO artist (name,  bio) values("Al's Magic", 'Modern electro with a vintage vibe.');
-INSERT INTO artist (name,  bio) values('floodreed', 'floodreed is an experimental modular synthesis artist.');
-INSERT INTO artist (name,  bio) values("Allen Fingerlake", 'Minimal techno.');
+INSERT INTO artist (name,  bio, url) values("Al's Magic", 'Modern electro with a vintage vibe.', 'https://alsmagic.bandcamp.com');
+INSERT INTO artist (name,  bio, url) values('floodreed', 'floodreed is an experimental modular synthesis artist.', 'https://floodreed.bandcamp.com');
+INSERT INTO artist (name,  bio, url) values("Allen Fingerlake", 'Minimal techno.', 'https://allenfingerlake.bandcamp.com');
 
 -- associate artists with people
 INSERT INTO artist_member (member_id, artist_id) values(1,1);
