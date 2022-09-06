@@ -4,8 +4,9 @@
 {% block page_content %}
 <ul>
     {% for artist in artists %}
-    <li>{{ artist.name }}</li>
-    <li>{{ artist.bio }}</li>
+        <li>
+            <a href="{{ url_for('artist', artist_id=artist.id) }}">{{ artist.artist_name }}</a>
+        </li>
     {% endfor %}
 </ul>
 </main> 

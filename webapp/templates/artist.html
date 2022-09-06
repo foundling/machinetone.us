@@ -2,6 +2,16 @@
 
 {% block title %}Artists{% endblock %}
 {% block page_content %}
-artist: {{ artist }}
+<ul>
+    <img src="{{ url_for('static', filename='img/artist') }}/{{artist.artist_name}}.png"></img>
+    <li>
+        artist: {{ artist.artist_name }}
+    </li>
+    <li>
+        bio: {{ artist.artist_bio }}
+    </li>
+    <li>
+        <span>url: <a href="{{artist.artist_url}}">{{ artist.artist_url }}</a></span>
+    </li>
 </main> 
 {% endblock %}

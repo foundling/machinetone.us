@@ -51,14 +51,36 @@ def about():
 @app.route('/artists')
 def artists():
 
+    statement = """
+    select
+        artist.name as artist_name,
+        artist.bio as artist_bio,
+        artist.id as id
+    from
+        artist
+    order by artist_name asc;
+    """
     cur = get_db_cur()
-    artists = cur.execute('select * from artist')
+    artists = cur.execute(statement).fetchall()
 
     return render_template('artists.html', artists=artists)
 
-@app.route('/artists/<artist_name>')
-def artist(artist_name):
-    return render_template('artist.html', artist=artist_name)
+@app.route('/artists/<artist_id>')
+def artist(artist_id):
+    statement = """
+    select
+        name as artist_name,
+        id as artist_id,
+        bio as artist_bio,
+        url as artist_url
+    from
+        artist
+    where
+        artist_id = ?
+    """
+    cur = get_db_cur()
+    artist = cur.execute(statement, [artist_id]).fetchone()
+    return render_template('artist.html', artist=artist)
 
 @app.route('/catalog')
 def catalog():
