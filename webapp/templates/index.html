@@ -5,14 +5,14 @@
 {% block page_content %}
 <section class="latest">
 
-    <a href="/catalog/mt004">
+    <a href="/catalog/MT003">
         <header>
-            <h1>MT004</h1>
-            <h2 class="artist">Allen Fingerlake</h2>
-            <h3 class="release">Reintroductions</h3>
+            <h1>{{ latest_release['catalog_number'] }}</h1>
+            <h2 class="artist">{{latest_release['artist_name'] }}</h2>
+            <h3 class="release">{{latest_release['release_title'] }}</h3>
         </header>
-        <img src='{{ url_for("static", filename="img/fingerlake-reintroductions.png") }}' />
-        <p class="short-description">2 live takes of minimal techno.</p>
+        <img src="{{ url_for('static', filename='img') }}/{{ latest_release['catalog_number'] }}-small.png" />
+        <p class="short-description">{{ latest_release['release_description'] }}</p>
     </a>
 
 </section>

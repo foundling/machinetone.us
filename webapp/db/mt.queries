@@ -1,0 +1,12 @@
+select
+    artist.name as artist_name,
+    release.title as release_title,
+    release.catalog_number as catalog_number,
+    release.release_date as release_date,
+    release.release_format as release_format
+from
+    release
+join
+    artist on artist.id = release.artist_id
+where
+    release.catalog_number = 'MT003';

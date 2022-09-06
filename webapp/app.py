@@ -17,7 +17,26 @@ def get_db_cur():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    cur = get_db_cur()
+    statement = """
+    select 
+        artist.name as artist_name,
+        release.catalog_number as catalog_number,
+        release.title as release_title,
+        release.release_date as release_date,
+        release.description as release_description
+    from
+        artist
+    join
+        release
+    on
+        artist.id = release.artist_id
+    order by
+        release_date desc
+    limit 1;
+    """
+    latest_release = cur.execute(statement).fetchone()
+    return render_template('index.html', latest_release=latest_release)
 
 @app.route('/newsletter')
 def newsletter():
@@ -47,9 +66,27 @@ def catalog():
 
     return render_template('catalog.html', releases=releases)
 
-@app.route('/catalog/<release_number>')
-def catalog_item(release_number):
-    return render_template('release.html', release=release_number)
+@app.route('/catalog/<catalog_number>')
+def catalog_item(catalog_number):
+    statement = """
+    select
+        artist.name as artist_name,
+        release.title as release_title,
+        release.catalog_number as catalog_number,
+        release.description as release_description,
+        release.release_date as release_date,
+        release.release_format as release_format
+    from
+        release
+    join
+        artist on artist.id = release.artist_id
+    where
+        release.catalog_number = ?;
+    """
+    cur = get_db_cur()
+    release = cur.execute(statement, [catalog_number.upper()]).fetchone();
+    print(release)
+    return render_template('release.html', release=release)
 
 # don't freeze this
 @app.route('/admin')
@@ -67,9 +104,12 @@ def admin():
 
 @app.route('/update', methods=['POST'])
 def update():
+
     d = request.form.to_dict(flat=False)
+
     for k,v in d.items():
         print(f"{k}: {','.join(v)}")
+
     return render_template('update.html')
 
 if __name__ == '__main__':
