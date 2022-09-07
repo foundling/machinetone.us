@@ -86,7 +86,27 @@ def artist(artist_id):
 def catalog():
 
     cur = get_db_cur()
-    releases = cur.execute('select * from release').fetchall()
+    statement = """
+    select
+        release.catalog_number,
+        release.title, 
+        release.release_date,
+        release.description,
+        artist.name as artist,
+        release_format.format,
+        release_medium.medium
+    from
+        release
+    join
+        artist on artist.id = release.artist_id
+    join
+        release_format on release_format.id = release.release_format
+    join
+        release_medium on release_medium.id = release.release_medium;
+    """
+
+    releases = cur.execute(statement).fetchall()
+    print([dict(release) for release in releases])
 
     return render_template('catalog.html', releases=releases)
 
@@ -94,12 +114,12 @@ def catalog():
 def catalog_item(catalog_number):
     statement = """
     select
-        artist.name as artist_name,
-        release.title as release_title,
+        artist.name as artist,
+        release.title as title,
         release.catalog_number as catalog_number,
-        release.description as release_description,
+        release.description as description,
         release.release_date as release_date,
-        release.release_format as release_format
+        release.release_format as format
     from
         release
     join

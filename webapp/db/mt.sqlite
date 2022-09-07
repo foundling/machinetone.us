@@ -32,27 +32,27 @@ CREATE TABLE IF NOT EXISTS release (
     title TEXT NOT NULL,
     description TEXT NOT NULL,
     release_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    release_type TEXT NOT NULL,
     release_format TEXT NOT NULL,
+    release_medium TEXT NOT NULL,
     FOREIGN KEY (artist_id) REFERENCES artist(id)
-    FOREIGN KEY (release_type) REFERENCES release_type(id),
-    FOREIGN KEY (release_format) REFERENCES release_format(id)
+    FOREIGN KEY (release_format) REFERENCES release_format(id),
+    FOREIGN KEY (release_medium) REFERENCES release_medium(id)
 );
 
 /* instead of enum, which is not available in sqlite, release table uses 
    a non-null foreign key to this table.
 */
-CREATE TABLE IF NOT EXISTS release_type (
+CREATE TABLE IF NOT EXISTS release_format (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type TEXT NOT NULL DEFAULT('EP')
+    format TEXT NOT NULL DEFAULT('EP')
 );
 
 /* instead of enum (not avail in sqlite), release table uses 
    a non-null foreign key to this table.
 */
-CREATE TABLE IF NOT EXISTS release_format (
+CREATE TABLE IF NOT EXISTS release_medium (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type TEXT NOT NULL DEFAULT('digital')
+    medium TEXT NOT NULL DEFAULT('digital')
 );
 
 
@@ -105,16 +105,16 @@ CREATE TABLE IF NOT EXISTS release_track (
 );
 
 -- create release types (...wish sqlite had enums)
-insert into release_type (type) values ('ep');
-insert into release_type (type) values ('lp');
-insert into release_type (type) values ('single');
-insert into release_type (type) values ('compilation');
+insert into release_format (format) values ('EP');
+insert into release_format (format) values ('LP');
+insert into release_format (format) values ('single');
+insert into release_format (format) values ('compilation');
 
 -- create release mediums (...wish sqlite had enums)
-insert into release_format (type) values ('digital');
-insert into release_format (type) values ('vinyl');
-insert into release_format (type) values ('cd');
-insert into release_format (type) values ('cassette');
+insert into release_medium (medium) values ('digital');
+insert into release_medium (medium) values ('vinyl');
+insert into release_medium (medium) values ('cd');
+insert into release_medium (medium) values ('cassette');
 
 -- create genres
 INSERT INTO genre (name) VALUES (
@@ -161,7 +161,7 @@ INSERT INTO artist_member (member_id, artist_id) values(2,3);
 
 
 -- create releases
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
     1,
     'MT001',
     'Cosmic Takes',
@@ -171,7 +171,7 @@ INSERT INTO release (artist_id, catalog_number, title, release_date, description
     1
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
     2,
     'MT002',
     'Chakrat EP',
@@ -181,7 +181,7 @@ INSERT INTO release (artist_id, catalog_number, title, release_date, description
     1
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_type, release_format) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
     3,
     'MT003',
     'Reintroductions',
@@ -323,10 +323,10 @@ join member on artist_member.member_id = member_id;
 select
     artist.name as Artist,
     release.title as 'Release Title',
-    release_format.type as Medium,
+    release_medium.type as Medium,
     STRFTIME('%m/%d/%Y, %H:%M',  release.release_date) as ReleaseDate
     from release
 join artist_release on release.id = artist_release.release_id
-join release_format on release.release_format = release_format.id
+join release_medium on release.release_medium = release_medium.id
 join artist on artist_release.id = artist.id;
 */
