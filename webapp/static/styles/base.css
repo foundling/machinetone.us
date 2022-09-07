@@ -6,7 +6,6 @@ body {
     max-height: 100%;
     width: 100%;
     box-sizing: border-box;
-    margin: 10px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -48,6 +47,10 @@ li {
 footer {
     text-align: center;
     width: 100%;
-    padding: 20px;
+    padding-bottom: 20px;
     flex-shrink: 0;
+    /*
+    background: whitesmoke;
+    color: #313131;
+    */
 }

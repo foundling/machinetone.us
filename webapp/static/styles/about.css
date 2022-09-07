@@ -6,6 +6,11 @@
     color:  rgba(255,99,99,1);
 }
 
+.about {
+    max-width: 400px;
+    max-height: 400px;
+    margin: 100px auto 0 auto;
+}
 .page-about {
 }
 

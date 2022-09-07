@@ -41,7 +41,9 @@
             {% endblock %}
         </main>
 
-        <footer>© Machine Tone, 2022.  All Rights Reserved.</footer>
+        <footer>
+            <span class="copyright">© Machine Tone, 2022.  All Rights Reserved.</span>
+        </footer>
         {% block scripts %}{% endblock %}
         <script src="{{url_for('static', filename='scripts/nav.js')}}"></script>
     </body>

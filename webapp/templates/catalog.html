@@ -4,14 +4,28 @@
 
 {% block page_content %}
 <ul>
-    {% for release in releases %}
-        <li>{{ release['title'] }}</li>
-        <li>{{ release['description'] }}</li>
-        <li>{{ release['release_date'] }}</li>
-        <!--
-        <li>{{ release['release_type'] }}</li>
-        <li>{{ release['release_format'] }}</li>
-        -->
-    {% endfor %}
+    <table class="catalog">
+        <tr>
+            <th>Catalog Number</th>
+            <th>Artist</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Release date</th>
+            <th>Format</th>
+            <th>Medium</th>
+        </tr>
+        <tr>
+        {% for release in releases %}
+            <tr>
+                <td>{{ release['catalog_number'] }}</td>
+                <td>{{ release['artist'] }}</td>
+                <td>{{ release['title'] }}</td>
+                <td>{{ release['description'] }}</td>
+                <td class="release-date">{{ release['release_date'] }}</td>
+                <td>{{ release['format'] }}</td>
+                <td>{{ release['medium'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 </ul>
 {% endblock %}

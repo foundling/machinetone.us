@@ -1,3 +1,9 @@
 .page-artists {
     justify-content: flex-start;
 }
+
+.page-artists ul {
+    max-width: 400px;
+    max-height: 400px;
+    margin: 100px auto 0 auto;
+}

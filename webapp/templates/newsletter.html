@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block page_content %}
-    <p>Subscribe to our newsletter to hear about upcoming releases and shows.  No spam.</p>
-    <div class="ml-embedded" data-form="b6X8ex"></div>
+
+    <div class="newsletter">
+        <p class="call-to-action" >Subscribe to get notifications about upcoming releases, events and performances. </p>
+        {% include "newsletter_form.html" %}
+    </div>
+
 {% endblock %}

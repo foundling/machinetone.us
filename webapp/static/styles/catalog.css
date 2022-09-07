@@ -1,3 +1,23 @@
 .page-catalog {
     justify-content: flex-start;
+    margin-top: 100px;
+}
+
+.page-catalog tr {
+    text-align:left;
+    vertical-align: top;
+    width: 100%;
+    white-space: no-wrap;
+}
+
+.page-catalog table {
+}
+
+td.release-date {
+    white-space: nowrap;
+}
+
+.page-catalog td,
+.page-catalog th {
+    padding: 5px;
 }

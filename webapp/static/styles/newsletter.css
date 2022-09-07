@@ -2,3 +2,13 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+.page-newsletter > .newsletter {
+    max-width: 400px;
+    max-height: 400px;
+    margin: 100px auto 0 auto;
+}
+
+.call-to-action {
+    margin-bottom: 10px;
+}

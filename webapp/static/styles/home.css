@@ -1,9 +1,11 @@
 .page-home {
+    justify-content: flex-start;
+    margin-top: 100px;
 }
 
 .latest {
-    width: 400px;
-    height: 400px;
+    max-width: 400px;
+    max-height: 400px;
     margin: 0 auto;
 }
 .latest > a > header > h1,
@@ -21,4 +23,5 @@
 .latest img {
     height: 100%;
     width: 100%;
+    margin-bottom: 5px;
 }
