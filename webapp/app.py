@@ -9,6 +9,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
+
 def get_db_cur():
 
     db_path = os.path.join(os.path.dirname(__file__), 'db', 'mt.db')
@@ -16,6 +17,11 @@ def get_db_cur():
     con.row_factory = sqlite3.Row
 
     return con.cursor()
+
+@app.template_filter('nice_date')
+def format_nice_date(d):
+    pass
+    #datetime.striptime(d, 
 
 @app.route('/')
 def home():
@@ -38,6 +44,7 @@ def home():
     limit 1;
     """
     latest_release = cur.execute(statement).fetchone()
+    print(latest_release)
     return render_template('index.html', latest_release=latest_release)
 
 @app.route('/newsletter')
@@ -146,6 +153,42 @@ def api_artists():
             dict(artist) for artist in artists
         ]
     }
+
+
+@app.template_filter('nice_date')
+def format_nice_date(d):
+
+    months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ]
+    date = datetime.strptime(d, '%Y-%m-%d')
+    day = date.day
+
+    # get last char in day number as string, e.g. 30 is '0'
+
+    c = str(day)[-1] 
+
+    if c in ['0'] + [str(x) for x in range(3,10)]:
+        suffix = 'th'
+    elif c == '1':
+        suffix = 'st'
+    elif c == '2':
+        suffix = 'nd'
+    elif c == '3':
+        suffix = 'rd'
+
+    return f'{months[date.month - 1]} {date.day}{suffix}'
 
 if __name__ == '__main__':
 

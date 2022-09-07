@@ -7,12 +7,13 @@
 
     <a href="/catalog/MT003">
         <header>
+            <h1 class="upcoming"> Coming {{ latest_release['release_date'] | nice_date }}!</h1>
+
             <h1>{{ latest_release['catalog_number'] }}</h1>
             <h2 class="artist">{{latest_release['artist_name'] }}</h2>
             <h3 class="release">{{latest_release['release_title'] }}</h3>
         </header>
         <img src="{{ url_for('static', filename='img') }}/release/{{ latest_release['catalog_number'] }}-large.png" />
-        <p class="short-description">{{ latest_release['release_description'] }}</p>
     </a>
 
 </section>

@@ -7,10 +7,10 @@
     text-align:left;
     vertical-align: top;
     width: 100%;
-    white-space: no-wrap;
 }
 
 .page-catalog table {
+    padding-bottom: 100px;
 }
 
 td.release-date {
@@ -19,5 +19,19 @@ td.release-date {
 
 .page-catalog td,
 .page-catalog th {
-    padding: 5px;
+    padding: 10px;
+}
+
+.page-catalog th {
+    white-space: nowrap;
+}
+
+table {
+}
+
+@media(max-width600px) {
+    tr > td {
+        display: block;
+    }
+
 }
