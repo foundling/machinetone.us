@@ -3,11 +3,14 @@
 {% block title %}Artists{% endblock %}
 
 {% block page_content %}
+
 {% set catalog_number = release['catalog_number'] %}
+
 {{ release['catalog_number'] }}
-{{ release['release_title'] }}
-{{ release['artist_name'] }}
-{{ release['release_description'] }}
-<img src="{{ url_for('static', filename='img') }}/release/{{ catalog_number }}-large.png" />
+{{ release['title'] }}
+{{ release['artist'] }}
+{{ release['format'] }}
+{{ release['release_date'] }}
+<img src="{{ url_for('static', filename='img/release/' + catalog_number + '-large.png') }}" />
 
 {% endblock %}

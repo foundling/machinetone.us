@@ -13,7 +13,7 @@
             <h2 class="artist">{{latest_release['artist_name'] }}</h2>
             <h3 class="release">{{latest_release['release_title'] }}</h3>
         </header>
-        <img src="{{ url_for('static', filename='img') }}/release/{{ latest_release['catalog_number'] }}-large.png" />
+        <img src="{{ url_for('static', filename='img/release/' + latest_release['catalog_number'] + '-large.png') }}" />
     </a>
 
 </section>

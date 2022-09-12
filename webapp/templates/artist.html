@@ -3,7 +3,7 @@
 {% block title %}Artists{% endblock %}
 {% block page_content %}
 <ul>
-    <img src="{{ url_for('static', filename='img/artist') }}/{{artist.artist_name}}.png"></img>
+    <img src="{{ url_for('static', filename='img/artist/' + artist.artist_name + '.png') }}"></img>
     <li>
         artist: {{ artist.artist_name }}
     </li>

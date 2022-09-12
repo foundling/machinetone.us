@@ -44,7 +44,7 @@ def home():
     limit 1;
     """
     latest_release = cur.execute(statement).fetchone()
-    print(latest_release)
+
     return render_template('index.html', latest_release=latest_release)
 
 @app.route('/newsletter')
@@ -87,6 +87,7 @@ def artist(artist_id):
     """
     cur = get_db_cur()
     artist = cur.execute(statement, [artist_id]).fetchone()
+
     return render_template('artist.html', artist=artist)
 
 @app.route('/catalog')
@@ -113,7 +114,6 @@ def catalog():
     """
 
     releases = cur.execute(statement).fetchall()
-    print([dict(release) for release in releases])
 
     return render_template('catalog.html', releases=releases)
 
@@ -136,7 +136,9 @@ def catalog_item(catalog_number):
     """
     cur = get_db_cur()
     release = cur.execute(statement, [catalog_number.upper()]).fetchone();
-    print(release)
+
+    print(dict(release))
+
     return render_template('release.html', release=release)
 
 

@@ -19,27 +19,19 @@ def update_db(**kwargs):
 def help(**kwargs):
     print('kwargs: ', kwargs)
 
-def parse_args():
-
+def run():
 
     parser = argparse.ArgumentParser(description='machine tone website deployment tool')
     subparser = parser.add_subparsers(dest='command')
 
     parser_build = subparser.add_parser('build', help='generate a static version of the machine tone website')
-    #parser_build.set_defaults(func=build)
 
     parser_deploy = subparser.add_parser('deploy', help='deploy the static build contents of ./build to the hosting server')
-    #parser_deploy.set_defaults(func=deploy)
 
     parser_update_db = subparser.add_parser('update', help='update the database using new data in the machine tone web google sheet')
     parser_update_db.add_argument('--clean', help='prune the google sheet of all entries marked updated after pulling new data into the local sqlite database.', action='store_true') 
-    #parser_update_db.set_defaults(func=update_db)
 
-    return parser.parse_args(sys.argv[1:])
-
-def run():
-
-    args = vars(parse_args())
+    args = vars(parser.parse_args(sys.argv[1:]))
     command = args['command']
     commands = {
         'build': build,
@@ -48,8 +40,10 @@ def run():
     }
     command = commands.get(command)
 
-    if command is not None:
+    if command:
         command()
+    else:
+        parser.print_help()
 
     sys.exit(0)
 
