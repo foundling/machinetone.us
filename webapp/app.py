@@ -10,6 +10,9 @@ app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
 
+def debug(o):
+    print(dict(o))
+
 def get_db_cur():
 
     db_path = os.path.join(os.path.dirname(__file__), 'db', 'mt.db')
@@ -17,11 +20,6 @@ def get_db_cur():
     con.row_factory = sqlite3.Row
 
     return con.cursor()
-
-@app.template_filter('nice_date')
-def format_nice_date(d):
-    pass
-    #datetime.striptime(d, 
 
 @app.route('/')
 def home():
@@ -47,15 +45,15 @@ def home():
 
     return render_template('index.html', latest_release=latest_release)
 
-@app.route('/newsletter')
+@app.route('/newsletter/')
 def newsletter():
     return render_template('newsletter.html')
 
-@app.route('/about')
+@app.route('/about/')
 def about():
     return render_template('about.html')
 
-@app.route('/artists')
+@app.route('/artists/')
 def artists():
 
     statement = """
@@ -72,7 +70,7 @@ def artists():
 
     return render_template('artists.html', artists=artists)
 
-@app.route('/artists/<artist_id>')
+@app.route('/artists/<artist_id>/')
 def artist(artist_id):
     statement = """
     select
@@ -90,7 +88,7 @@ def artist(artist_id):
 
     return render_template('artist.html', artist=artist)
 
-@app.route('/catalog')
+@app.route('/catalog/')
 def catalog():
 
     cur = get_db_cur()
@@ -117,7 +115,7 @@ def catalog():
 
     return render_template('catalog.html', releases=releases)
 
-@app.route('/catalog/<catalog_number>')
+@app.route('/catalog/<catalog_number>/')
 def catalog_item(catalog_number):
     statement = """
     select
@@ -137,14 +135,12 @@ def catalog_item(catalog_number):
     cur = get_db_cur()
     release = cur.execute(statement, [catalog_number.upper()]).fetchone();
 
-    print(dict(release))
-
     return render_template('release.html', release=release)
 
 
 ## API FOR LOCAL-ONLY ADMIN PANEL
 
-@app.route('/api/artists', methods=['GET', 'POST'])
+@app.route('/api/artists/', methods=['GET', 'POST'])
 def api_artists():
 
     cur = get_db_cur()
