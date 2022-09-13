@@ -133,18 +133,28 @@ def catalog_item(catalog_number):
         release.catalog_number = ?;
     """
     cur = get_db_cur()
-    release = cur.execute(statement, [catalog_number.upper()]).fetchone();
+    release = cur.execute(statement, [catalog_number.upper()]).fetchone()
 
     return render_template('release.html', release=release)
 
 
 ## API FOR LOCAL-ONLY ADMIN PANEL
 
+"""
+note: for api routes, setting mimetype.
+
+from flask import Response
+@app.route('/ajax_ddl')
+def ajax_ddl():
+    xml = 'foo'
+    return Response(xml, mimetype='text/xml')
+"""
+
 @app.route('/api/artists/', methods=['GET', 'POST'])
 def api_artists():
 
     cur = get_db_cur()
-    artists = cur.execute('select * from artist').fetchall();
+    artists = cur.execute('select * from artist').fetchall()
 
     return {
         "artists": [

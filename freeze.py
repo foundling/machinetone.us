@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+
 def freeze():
 
     import os
     from flask_frozen import Freezer
-    from webapp.app import app
+    import sqlite3
+    from webapp.app import app, get_db_cur
 
     # Freezer config
     build_destination = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build')
@@ -13,9 +15,19 @@ def freeze():
 
     freezer = Freezer(app)
 
-    print(f'building static site to {build_destination} ...') 
+    # /catalog/<catalog_item>
+    @freezer.register_generator
+    def catalog_item():
+
+        cur = get_db_cur()
+        catalog_numbers = cur.execute('select catalog_number from release order by catalog_number desc').fetchall()
+
+        for result in catalog_numbers:
+            yield { 'catalog_number': result['catalog_number'] }
+
+    print(f'building static site to {build_destination} ...')
     freezer.freeze()
-    print('done!') 
+    print('done!')
 
 if __name__ == '__main__':
     freeze()
