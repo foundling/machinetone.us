@@ -4,10 +4,12 @@ import sys
 import argparse
 
 
-#TODO: add color to output
+# TODO: add color to output
 
-# check this out for example of subcommand w/ functioning help:
-# https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html
+# TODO: ignore certain urls
+# might have to modify this fn: https://github.com/Frozen-Flask/Frozen-Flask/blob/e795c1869a70f3d3735b2f2b1d27dbddbac48368/flask_frozen/__init__.py#L396
+
+# TODO: rsync copy only new/changed files. prune unused files.
 
 def build(**kwargs):
 
@@ -34,7 +36,6 @@ def deploy(**kwargs):
         print("error: no MT_DEPLOY_TARGET found in environment.")
         return True 
 
-    # TODO: sparse copy, choosing newest + prune.
     rc = os.system(f"rsync -aP build/ {mt_deploy_target}")
     if rc != 0:
         return True
