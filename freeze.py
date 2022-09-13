@@ -25,9 +25,7 @@ def freeze():
         for result in catalog_numbers:
             yield { 'catalog_number': result['catalog_number'] }
 
-    print(f'building static site to {build_destination} ...')
     freezer.freeze()
-    print('done!')
 
 if __name__ == '__main__':
     freeze()

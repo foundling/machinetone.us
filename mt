@@ -2,22 +2,45 @@
 
 import sys
 import argparse
-from freeze import freeze
+
+
+#TODO: add color to output
 
 # check this out for example of subcommand w/ functioning help:
 # https://chase-seibert.github.io/blog/2014/03/21/python-multilevel-argparse.html
 
 def build(**kwargs):
+
+    from freeze import freeze
+
+    print('building static site...')
     freeze()
+    print('build complete!')
+
+    return False
+
 
 def deploy(**kwargs):
-    print('kwargs: ', kwargs)
 
-def update_db(**kwargs):
-    print('kwargs: ', kwargs)
+    import os
 
-def help(**kwargs):
-    print('kwargs: ', kwargs)
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    build()
+
+    mt_deploy_target = os.environ.get('MT_DEPLOY_TARGET') 
+    if not mt_deploy_target:
+        print("error: no MT_DEPLOY_TARGET found in environment.")
+        return True 
+
+    # TODO: sparse copy, choosing newest + prune.
+    rc = os.system(f"rsync -aP build/ {mt_deploy_target}")
+    if rc != 0:
+        return True
+
+    return False
+
 
 def run():
 
@@ -28,20 +51,22 @@ def run():
 
     parser_deploy = subparser.add_parser('deploy', help='deploy the static build contents of ./build to the hosting server')
 
-    parser_update_db = subparser.add_parser('update', help='update the database using new data in the machine tone web google sheet')
-    parser_update_db.add_argument('--clean', help='prune the google sheet of all entries marked updated after pulling new data into the local sqlite database.', action='store_true') 
-
     args = vars(parser.parse_args(sys.argv[1:]))
     command = args['command']
     commands = {
         'build': build,
         'deploy': deploy,
-        'update': update_db
     }
+
     command = commands.get(command)
+    command_failed = False
 
     if command:
-        command()
+        command_failed = command()
+
+        if command_failed:
+            print('mt: command failed')
+
     else:
         parser.print_help()
 
