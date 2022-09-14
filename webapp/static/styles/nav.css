@@ -36,3 +36,15 @@ nav > .nav-items {
     color:  rgba(255,99,99,1);
 }
 
+
+@media(max-width: 650px) {
+    nav {
+        flex-direction: row; 
+        justify-content: space-between;
+    }
+
+    ul#nav-dropdown {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+}
