@@ -1,10 +1,12 @@
 nav {
+    box-sizing: border-box;
     width: 100%;
     align-items: baseline;
-    margin: 10px;
+    padding: 10px;
 }
 
-nav, nav > .nav-items {
+nav,
+nav > .nav-items {
     display: flex;
     flex-direction: column;
 }
