@@ -21,8 +21,8 @@ def get_db_cur():
 
     return con.cursor()
 
-@app.route('/alt')
-def alt():
+@app.route('/')
+def index():
 
     cur = get_db_cur()
     statement = """
@@ -35,7 +35,8 @@ def alt():
         release.description,
         release_format.format,
         release_medium.medium,
-        release.release_url as url
+        release.url as release_url,
+        artist.url as artist_url
     from
         release
     join
@@ -47,9 +48,9 @@ def alt():
     """
 
     releases = cur.execute(statement).fetchall()
-    return render_template('alt.html', releases=releases)
+    return render_template('alt-index.html', releases=releases)
 
-@app.route('/')
+@app.route('/home')
 def home():
     cur = get_db_cur()
     statement = """
@@ -191,6 +192,10 @@ def api_artists():
             dict(artist) for artist in artists
         ]
     }
+
+@app.template_filter('short_ymd')
+def format_short_ymd(d):
+    return datetime.fromisoformat(d).strftime('%m.%d.%y')
 
 @app.template_filter('nice_date')
 def format_nice_date(d):

@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS release (
     release_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     release_format TEXT NOT NULL,
     release_medium TEXT NOT NULL,
-    release_url TEXT NOT NULL,
+    url TEXT NOT NULL,
     FOREIGN KEY (artist_id) REFERENCES artist(id)
     FOREIGN KEY (release_format) REFERENCES release_format(id),
     FOREIGN KEY (release_medium) REFERENCES release_medium(id)
@@ -162,7 +162,7 @@ INSERT INTO artist_member (member_id, artist_id) values(2,3);
 
 
 -- create releases
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, url) VALUES (
     1,
     'MT001',
     'Cosmic Takes',
@@ -173,7 +173,7 @@ INSERT INTO release (artist_id, catalog_number, title, release_date, description
     'https://alsmagic.bandcamp.com/album/cosmic-takes'
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, url) VALUES (
     2,
     'MT002',
     'Chakrat EP',
@@ -184,15 +184,15 @@ INSERT INTO release (artist_id, catalog_number, title, release_date, description
     'https://floodreed.bandcamp.com/album/chakrat-ep'
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, url) VALUES (
     3,
     'MT003',
     'Reintroductions',
-    '2022-10-01',
+    '2022-11-01',
     "dub techno",
     1,
     1,
-    'https://allenfingerlake.bandcamp.com/album/reintroductions'
+    ''
 );
 
 -- associate tracks with releases

@@ -1,0 +1,87 @@
+<!doctype>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta charset="utf-8">
+        <title >Machine Tone{% block title %}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <style>
+            body, body * {
+                font-family: sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                padding: 30px;
+            }
+            body, body * {
+                box-sizing: border-box;
+            }
+
+            li, ul {
+                padding: 0;
+                margin: 0;
+            }
+            li {
+                list-style-type: none;
+            }
+            li > a:hover {
+                color: red;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            .about a:hover {
+                color: red;
+            }
+            img.logo {
+                max-width: 100%;
+            }
+            span.release {
+                font-style: italic;
+            }
+            span.release-date {
+                margin-right: 5px;
+            }
+            header {
+                padding-top: 10px;
+                padding-bottom: 20px;
+            }
+            section {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <a href="/">
+                <img class="logo" src="{{ url_for('static', filename='img/mt-logo-long-black-on-white.png') }}" />
+            </a>
+        </header>
+        <section class="about">
+            <p>techno & ambient. founded in 2021 by <a href="https://ra.co/dj/justinreed">Justin Reed</a> and <a href="https://www.discogs.com/artist/9052408-Alex-Ramsdell?type=Credits&filter_anv=0">Alex Ramsdell</a>.<p>
+        </section>
+        <section>
+            <ul>
+                <li class="listen-buy">[ <a href="https://machinetone.bandcamp.com">listen/buy</a> ]</li>
+            </ul> 
+        </section>
+        <section>
+            <ul class="releases">
+            {% for release in releases %}
+                <li>
+                    <span class="release-date">{{ release['release_date'] | short_ymd }}</span>
+                    <a href="{{ release['artist_url'] }}">
+                        <span class="artist">{{ release['artist'] }}</span>
+                    </a>
+                    <a href="{{ release['release_url'] }}">
+                        <span class="release">{{ release['title']}}<span>
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </section>
+    </body>
+</html>
