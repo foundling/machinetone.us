@@ -18,6 +18,21 @@ td.release-date {
     white-space: nowrap;
 }
 
+td.underline:hover {
+    background: red;
+}
+td.underline > a:hover {
+    color: white;
+}
+td.underline > a {
+    padding-bottom: 2px;
+    border-bottom: 1px solid white;
+}
+
+td > a {
+    white-space: nowrap;
+}
+
 .page-catalog td,
 .page-catalog th {
     padding: 10px;

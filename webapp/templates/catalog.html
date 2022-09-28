@@ -17,9 +17,15 @@
         <tr>
         {% for release in releases %}
             <tr>
-                <td>{{ release['catalog_number'] }}</td>
-                <td>{{ release['artist'] }}</td>
-                <td>{{ release['title'] }}</td>
+                <td class="underline">
+                    <a target="_blank" href="{{ release['url'] }}">{{release['catalog_number']}}</a>
+                </td>
+                <td class="underline">
+                    <a href="{{ url_for('artist', artist_id=release['artist_id']) }}">{{release['artist']}}</a>
+                </td>
+                <td class="underline">
+                    <a target="_blank" href="{{ release['url'] }}">{{release['title']}}</a>
+                </td>
                 <td>{{ release['description'] }}</td>
                 <td class="release-date">{{ release['release_date'] }}</td>
                 <td>{{ release['format'] }}</td>

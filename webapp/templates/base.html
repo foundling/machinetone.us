@@ -31,9 +31,11 @@
             </header>
             {% if request.endpoint != 'admin' %}
             <ul id="nav-dropdown" class="nav-items">
-                <li class="nav-item {% if request.endpoint == 'artists' %}current-page{% endif %}">
+                <!--
+                    <li class="nav-item {% if request.endpoint == 'artists' %}current-page{% endif %}">
                     <a href="/artists">artists</a>
                 </li>
+                -->
                 <li class="nav-item {% if request.endpoint == 'catalog' %}current-page{% endif %}">
                     <a href="/catalog">catalog</a>
                 </li>

@@ -21,6 +21,34 @@ def get_db_cur():
 
     return con.cursor()
 
+@app.route('/alt')
+def alt():
+
+    cur = get_db_cur()
+    statement = """
+    select
+        artist.name as artist,
+        artist.id as artist_id,
+        release.catalog_number,
+        release.title, 
+        release.release_date,
+        release.description,
+        release_format.format,
+        release_medium.medium,
+        release.release_url as url
+    from
+        release
+    join
+        artist on artist.id = release.artist_id
+    join
+        release_format on release_format.id = release.release_format
+    join
+        release_medium on release_medium.id = release.release_medium;
+    """
+
+    releases = cur.execute(statement).fetchall()
+    return render_template('alt.html', releases=releases)
+
 @app.route('/')
 def home():
     cur = get_db_cur()
@@ -94,13 +122,15 @@ def catalog():
     cur = get_db_cur()
     statement = """
     select
+        artist.name as artist,
+        artist.id as artist_id,
         release.catalog_number,
         release.title, 
         release.release_date,
         release.description,
-        artist.name as artist,
         release_format.format,
-        release_medium.medium
+        release_medium.medium,
+        release.release_url as url
     from
         release
     join
@@ -161,7 +191,6 @@ def api_artists():
             dict(artist) for artist in artists
         ]
     }
-
 
 @app.template_filter('nice_date')
 def format_nice_date(d):

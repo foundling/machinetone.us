@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS release (
     release_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     release_format TEXT NOT NULL,
     release_medium TEXT NOT NULL,
+    release_url TEXT NOT NULL,
     FOREIGN KEY (artist_id) REFERENCES artist(id)
     FOREIGN KEY (release_format) REFERENCES release_format(id),
     FOREIGN KEY (release_medium) REFERENCES release_medium(id)
@@ -161,34 +162,37 @@ INSERT INTO artist_member (member_id, artist_id) values(2,3);
 
 
 -- create releases
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
     1,
     'MT001',
     'Cosmic Takes',
     '2021-06-01',
-    "Cosmic Takes is a funked-out love letter to Detroit electro.",
+    "A funky love letter to early electro.",
     1,
-    1
+    1,
+    'https://alsmagic.bandcamp.com/album/cosmic-takes'
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
     2,
     'MT002',
     'Chakrat EP',
     '2022-04-18',
     "Machine Tone presents Chakrat EP by floodreed. These songs are new and exciting visions of planets, plants and bodies in various states of growth and struggle. In terms of tracks, if the Chakrat triptych symphonizes the darkness of self-understanding, then 'Presettled Routine' and 'Illbient Excursion' downshift to a body-rhythm of inner reflection and curiosity.",
     1,
-    1
+    1,
+    'https://floodreed.bandcamp.com/album/chakrat-ep'
 );
 
-INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium) VALUES (
+INSERT INTO release (artist_id, catalog_number, title, release_date, description, release_format, release_medium, release_url) VALUES (
     3,
     'MT003',
     'Reintroductions',
     '2022-10-01',
-    "Minimal dub-ish techno.",
+    "dub techno",
     1,
-    1
+    1,
+    'https://allenfingerlake.bandcamp.com/album/reintroductions'
 );
 
 -- associate tracks with releases
